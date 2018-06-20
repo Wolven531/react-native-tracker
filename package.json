@@ -2,8 +2,11 @@
 	"main": "node_modules/expo/AppEntry.js",
 	"private": true,
 	"scripts": {
-		"android-start": "exp start -c -a --tunnel",
-		"android": "exp android"
+		"android-list-emulators": "echo '~~~~~~~~~~Emulators below~~~~~~~~~~' && emulator -list-avds",
+		"android-emulator": "cd C:\\Android\\android-sdk\\emulator && emulator -avd Nexus_5X_API_28_x86",
+		"android-start": "exp start -c --tunnel -a",
+		"android": "exp android",
+		"start": "exp start -c --tunnel --dev --no-minify"
 	},
 	"dependencies": {
 		"expo": "^28.0.0",

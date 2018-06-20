@@ -21,7 +21,9 @@ class App extends React.Component {
 		return (
 			<View style={styles.container}>
 				<Text>asdf</Text>
+				{/*
 				<PermissionDisplay onPermissionUpdate={this._dispatchPermissionsUpdate} />
+				*/}
 				<LocationDisplay permissions={store.getState().permissionsLocation} />
 			</View>
 		)
