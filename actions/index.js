@@ -1,8 +1,22 @@
 const setPermissionsLocation = (newLocationPermissions) => {
 	return {
 		type: 'set_permissions_location',
-		permissionsLocation: newLocationPermissions
+		payload: {
+			permissions: newLocationPermissions
+		}
 	}
 }
 
-export { setPermissionsLocation }
+const setPermissionsCamera = (newCameraPermissions) => {
+	return {
+		type: 'set_permissions_camera',
+		payload: {
+			permissions: newCameraPermissions
+		}
+	}
+}
+
+export {
+	setPermissionsCamera,
+	setPermissionsLocation
+}

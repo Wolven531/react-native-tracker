@@ -13,26 +13,32 @@ import { styles } from './styles'
 class App extends React.Component {
 	constructor(props) {
 		super(props)
+		console.log(`[App][constructor]`)
 		this.state = store.getState()
-		store.subscribe(this.render)// TODO: replace with `react-redux`?
+		//store.subscribe(this.render)// TODO: replace with `react-redux`?
+		store.subscribe(() => {
+			console.log(`[App][storeSubscribeFire] calling render...`)
+			this.render()
+		})
 	}
 
 	render() {
+		console.log(`[App][render]`)
 		return (
 			<View style={styles.container}>
-				<Text>asdf</Text>
 				{/*
-				<PermissionDisplay onPermissionUpdate={this._dispatchPermissionsUpdate} />
+				<Text>asdf</Text>
+				<LocationDisplay permissions={this.state.permissionsLocation} />
 				*/}
-				<LocationDisplay permissions={store.getState().permissionsLocation} />
+				<PermissionDisplay store={store} />
 			</View>
 		)
 	}
 
-	_dispatchPermissionsUpdate = newPermissions => {
-		console.info(`[App] Got new permissions: ${JSON.stringify(newPermissions, null, 4)}`)
-		store.dispatch(setPermissionsLocation(newPermissions.permissionLocation))
-	}
+	// _dispatchPermissionsUpdate = newPermissions => {
+	// 	console.info(`[App] Got new permissions: ${JSON.stringify(newPermissions, null, 4)}`)
+	// 	store.dispatch(setPermissionsLocation(newPermissions.permissionLocation))
+	// }
 }
 
 export default App

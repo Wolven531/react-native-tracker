@@ -3,7 +3,7 @@
 	"private": true,
 	"scripts": {
 		"android-list-emulators": "echo '~~~~~~~~~~Emulators below~~~~~~~~~~' && emulator -list-avds",
-		"android-emulator": "cd C:\\Android\\android-sdk\\emulator && emulator -avd Nexus_5X_API_28_x86",
+		"android-emulator": "cd C:\\Android\\android-sdk\\emulator && $avdName = emulator -list-avds && emulator -avd $avdName",
 		"android-start": "exp start -c --tunnel -a",
 		"android": "exp android",
 		"start": "exp start -c --tunnel --dev --no-minify"

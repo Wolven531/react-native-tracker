@@ -1,8 +1,10 @@
 import React from 'react'
-import { Text, View } from 'react-native'// old version: https://github.com/expo/react-native/archive/sdk-28.0.0.tar.gz
+import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import { Location, MapView } from 'expo'
 import DefaultProps from 'prop-types'
+
+import { store } from './store'
 
 import { styles } from './styles'
 
@@ -15,11 +17,12 @@ class LocationDisplay extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.state = {
-			locationResult: null,
-			mapRegion: null,
-			updatingLocation: false
-		}
+		this.state = store.getState()
+		// this.state = {
+		// 	locationResult: null,
+		// 	mapRegion: null,
+		// 	updatingLocation: false
+		// }
 	}
 
 	componentWillUnmount() {
