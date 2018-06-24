@@ -1,45 +1,44 @@
 import 'core-js'
 import React from 'react'
-import { Text, View } from 'react-native'
+// import { ImageBackground, View } from 'react-native'
+import { View } from 'react-native'
+
+import { CameraRenderer } from './containers/CameraRenderer'
+import { PermissionDisplay } from './containers/PermissionDisplay'
+// import { LocationDisplay } from './LocationDisplay'
 
 import { store } from './store'
-import { setPermissionsLocation } from './actions'
-
-import { PermissionDisplay } from './PermissionDisplay'
-import { LocationDisplay } from './LocationDisplay'
 
 import { styles } from './styles'
 
 class App extends React.Component {
 	constructor(props) {
 		super(props)
-		console.log(`[App][constructor]`)
 		this.state = store.getState()
-		//store.subscribe(this.render)// TODO: replace with `react-redux`?
 		store.subscribe(() => {
-			console.log(`[App][storeSubscribeFire] calling render...`)
-			this.render()
+			// TODO: replace with `react-redux`?
+			this.render()// if state is needed, use setState instead
 		})
 	}
 
 	render() {
-		console.log(`[App][render]`)
+		// console.log(`[App][render]`)
 		return (
 			<View style={styles.container}>
 				{/*
-				<Text>asdf</Text>
 				<LocationDisplay permissions={this.state.permissionsLocation} />
 				*/}
 				<PermissionDisplay store={store} />
+				<CameraRenderer store={store} />
+				{/*
+				{this.state.photo && <ImageBackground
+					style={{ flex: 1, minHeight: 200 }}
+					source={{ uri: this.state.photo }} />}
+				*/}
 			</View>
 		)
 	}
-
-	// _dispatchPermissionsUpdate = newPermissions => {
-	// 	console.info(`[App] Got new permissions: ${JSON.stringify(newPermissions, null, 4)}`)
-	// 	store.dispatch(setPermissionsLocation(newPermissions.permissionLocation))
-	// }
 }
 
-export default App
 export { App }
+export default App

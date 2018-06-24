@@ -1,8 +1,8 @@
-const setPermissionsLocation = (newLocationPermissions) => {
+const setActiveCamera = (cameraType) => {
 	return {
-		type: 'set_permissions_location',
+		type: 'set_active_camera',
 		payload: {
-			permissions: newLocationPermissions
+			camera: cameraType
 		}
 	}
 }
@@ -16,7 +16,27 @@ const setPermissionsCamera = (newCameraPermissions) => {
 	}
 }
 
+const setPermissionsLocation = (newLocationPermissions) => {
+	return {
+		type: 'set_permissions_location',
+		payload: {
+			permissions: newLocationPermissions
+		}
+	}
+}
+
+const setPhoto = (newPhoto) => {
+	return {
+		type: 'set_photo',
+		payload: {
+			photoUri: newPhoto.uri
+		}
+	}
+}
+
 export {
+	setActiveCamera,
 	setPermissionsCamera,
-	setPermissionsLocation
+	setPermissionsLocation,
+	setPhoto
 }

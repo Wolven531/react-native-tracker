@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "my-new-project",
-    "description": "This project is really great.",
-    "slug": "my-new-project",
+    "name": "React Native Tracker",
+    "description": "Pushing the digital envelope, AJW",
+    "slug": "react-native-tracker",
     "privacy": "public",
     "sdkVersion": "28.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
-    "orientation": "portrait",
+    "version": "0.5.0",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#dddddd"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
