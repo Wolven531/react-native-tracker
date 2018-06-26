@@ -5,14 +5,14 @@ import { styles } from '../styles'
 
 const localStyles = {
 	container: {
-		alignItems: 'stretch',
-		alignSelf: 'center',
+		alignItems: 'center',
+		alignSelf: 'stretch',
 		backgroundColor: '#333',
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: 10,
-		width: 200
+		paddingLeft: 10,
+		paddingRight: 10
 	}
 }
 

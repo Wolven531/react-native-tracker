@@ -20,20 +20,19 @@ const localStyles = {
 		borderRadius: 99999
 	},
 	container: {
+		// backgroundColor: '#0f0',
 		alignSelf: 'stretch',
 		flex: 1,
-		justifyContent: 'center'
+		justifyContent: 'center',
+		paddingBottom: 10
 	},
 	header: {
-		alignSelf: 'stretch',
-		backgroundColor: '#0a0',
 		color: '#eee',
-		flex: 1,
 		fontSize: 18,
 		fontWeight: 'bold',
-		paddingBottom: '1%',
-		paddingTop: '3%',
-		textAlign: 'center'
+		textAlign: 'center',
+		marginTop: 20
+		// lineHeight: 16.5
 	}
 }
 
@@ -56,14 +55,12 @@ class PermissionDisplay extends React.Component {
 
 	render() {
 		return (
-			<View styles={localStyles.container}>
+			<View style={localStyles.container}>
 				{this._renderOverview()}
-				{wrapWithMarginBottom(
-					<Button
-						buttonStyle={localStyles.buttonPermission}
-						title="Prompt for permissions"
-						onPress={async () => await this._askPermissionsAsync()} />
-				)}
+				<Button
+					buttonStyle={localStyles.buttonPermission}
+					title="Prompt for permissions"
+					onPress={async () => await this._askPermissionsAsync()} />
 			</View>
 		)
 	}
@@ -86,9 +83,13 @@ class PermissionDisplay extends React.Component {
 
 	_renderOverview = () => wrapWithMarginBottom(
 		<React.Fragment>
-			{wrapWithMarginBottom(
+			<View style={{
+				backgroundColor: '#0a0',
+				flex: 1,
+				maxHeight: 45
+			}}>
 				<Text style={localStyles.header}>Permissions</Text>
-			)}
+			</View>
 			<PermissionObjectDisplay permission={this.state.permissionsCamera} title={"Camera"} />
 			<PermissionObjectDisplay permission={this.state.permissionsLocation} title={"Location"} />
 			<CameraStatusDisplay activeCamera={this.state.activeCamera} />

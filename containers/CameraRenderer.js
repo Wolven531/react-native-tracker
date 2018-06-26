@@ -24,8 +24,8 @@ const localStyles = {
 		// flexDirection: 'row',
 		// height: '90%',
 		marginBottom: 20,
-		minHeight: 450,
-		minWidth: 600,
+		// minHeight: 450,
+		// minWidth: 600,
 		// width: '100%',
 	},
 	cameraTouchable: {
@@ -42,9 +42,17 @@ const localStyles = {
 		width: 200,
 	},
 	container: {
-		alignSelf: 'center',
+		// backgroundColor: '#f0f',
+		padding: 20,
+		marginBottom: 10
+	},
+	containerActive: {
+		// backgroundColor: '#f0f',
+		alignSelf: 'stretch',
+		alignItems: 'center',
 		flex: 1,
-		minHeight: 500
+		padding: 20,
+		marginBottom: 10
 	}
 }
 
@@ -73,7 +81,7 @@ class CameraRenderer extends React.Component {
 
 	render(){
 		return (
-			<View style={localStyles.container}>
+			<View style={this.state.activeCamera ? localStyles.containerActive : localStyles.container}>
 				{this.state.activeCamera ?
 					<Camera
 						style={localStyles.camera}
@@ -86,12 +94,10 @@ class CameraRenderer extends React.Component {
 					:
 					null
 				}
-				{wrapWithMarginBottom(
-					<Button
-						buttonStyle={localStyles.buttonSwitchCamera}
-						title="Switch Camera"
-						onPress={this._switchCamera} />
-				)}
+				<Button
+					buttonStyle={localStyles.buttonSwitchCamera}
+					title="Switch Camera"
+					onPress={this._switchCamera} />
 			</View>
 		)
 	}
