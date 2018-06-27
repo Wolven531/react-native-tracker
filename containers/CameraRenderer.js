@@ -19,40 +19,48 @@ const localStyles = {
 		borderRadius: 99999
 	},
 	camera: {
+		alignItems: 'flex-end',
 		alignSelf: 'stretch',
 		flex: 1,
+		justifyContent: 'space-between',
 		// flexDirection: 'row',
 		// height: '90%',
-		marginBottom: 20,
-		// minHeight: 450,
+		marginBottom: 10,
+		minHeight: 350,
 		// minWidth: 600,
 		// width: '100%',
 	},
 	cameraTouchable: {
-		alignSelf: 'center',
-		backgroundColor: 'rgba(200,200,200,.45)',
+		alignSelf: 'flex-end',
+		backgroundColor: 'rgba(200,200,200,.65)',
 		// TODO: figure out why js file can use '100%',
 		// but this file must use number
 		borderRadius: 99999,
 		flex: 1,
-		justifyContent: 'center',
-		marginTop: '10%',
-		marginVertical: 10,
-		maxHeight: 200,
-		width: 200,
+		// justifyContent: 'space-between',
+		margin: 20,
+		// marginVertical: 10,
+		maxHeight: 80,
+		width: 80,
 	},
 	container: {
 		// backgroundColor: '#f0f',
-		padding: 20,
-		marginBottom: 10
+		alignSelf: 'stretch',
+		alignItems: 'stretch',
+		flex: 1,
+		padding: 10,
+		// paddingLeft: 20,
+		// paddingRight: 20
 	},
 	containerActive: {
 		// backgroundColor: '#f0f',
 		alignSelf: 'stretch',
-		alignItems: 'center',
+		alignItems: 'stretch',
 		flex: 1,
-		padding: 20,
-		marginBottom: 10
+		padding: 10
+		// paddingBottom: 10,
+		// paddingLeft: 20,
+		// paddingRight: 20
 	}
 }
 

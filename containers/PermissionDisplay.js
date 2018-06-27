@@ -20,11 +20,12 @@ const localStyles = {
 		borderRadius: 99999
 	},
 	container: {
-		// backgroundColor: '#0f0',
+		// backgroundColor: '#f00',
+		alignItems: 'stretch',
 		alignSelf: 'stretch',
 		flex: 1,
-		justifyContent: 'center',
-		paddingBottom: 10
+		maxHeight: 200,
+		// paddingBottom: 10,
 	},
 	header: {
 		color: '#eee',
@@ -90,9 +91,14 @@ class PermissionDisplay extends React.Component {
 			}}>
 				<Text style={localStyles.header}>Permissions</Text>
 			</View>
-			<PermissionObjectDisplay permission={this.state.permissionsCamera} title={"Camera"} />
-			<PermissionObjectDisplay permission={this.state.permissionsLocation} title={"Location"} />
-			<CameraStatusDisplay activeCamera={this.state.activeCamera} />
+			<View style={{
+				flex: 1,
+				// maxHeight: 75
+			}}>
+				<PermissionObjectDisplay permission={this.state.permissionsCamera} title={"Camera"} />
+				<PermissionObjectDisplay permission={this.state.permissionsLocation} title={"Location"} />
+				<CameraStatusDisplay activeCamera={this.state.activeCamera} />
+			</View>
 		</React.Fragment>
 	)
 }

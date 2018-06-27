@@ -1,7 +1,7 @@
 import 'core-js'
 import React from 'react'
 // import { ImageBackground, View } from 'react-native'
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import { CameraRenderer } from './containers/CameraRenderer'
 import { PermissionDisplay } from './containers/PermissionDisplay'
@@ -13,13 +13,16 @@ import { styles } from './styles'
 
 const localStyles = {
 	container: {
-		backgroundColor: 'rgba(0,0,200,.8)',
+		backgroundColor: '#0000c8',
 		flex: 1,
 		// flexDirection: 'row',
 		alignItems: 'center',
 		alignSelf: 'stretch',
 		justifyContent: 'center',
-		overflow: 'scroll'
+		// minHeight: '100%',
+		minWidth: '100%',
+		position: 'absolute',
+		top: 0
 	}
 }
 
@@ -36,7 +39,11 @@ class App extends React.Component {
 	render() {
 		// console.log(`[App][render]`)
 		return (
-			<View style={localStyles.container}>
+			<ScrollView
+				style={{
+					backgroundColor: '#0000c8'
+				}}
+				contentContainerStyle={localStyles.container}>
 				<PermissionDisplay store={store} />
 				<CameraRenderer store={store} />
 				{/*
@@ -45,7 +52,7 @@ class App extends React.Component {
 					source={{ uri: this.state.photo }} />}
 				*/}
 				{/* <LocationRenderer store={store} /> */}
-			</View>
+			</ScrollView>
 		)
 	}
 }

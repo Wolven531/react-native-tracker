@@ -13,6 +13,7 @@ const localStyles = {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		// maxHeight: 40,
 		paddingLeft: 10,
 		paddingRight: 10
 	}
