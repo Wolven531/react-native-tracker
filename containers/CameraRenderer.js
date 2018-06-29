@@ -1,16 +1,17 @@
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import { Button } from 'react-native-elements'
+import { Text, TouchableOpacity, View } from 'react-native'
+import { Button, Slider } from 'react-native-elements'
 import { Camera } from 'expo'
 
 import {
 	setActiveCamera,
+	setCameraZoom,
 	setPhoto
 } from '../actions'
 
-import { wrapWithMarginBottom } from '../utils'
+// import { wrapWithMarginBottom } from '../utils'
 
-// import { styles } from '../styles'
+import { styles } from '../styles'
 
 const localStyles = {
 	buttonSwitchCamera: {
@@ -76,29 +77,83 @@ const takePicture = (cam, targetStore) => {
 }
 
 class CameraRenderer extends React.Component {
-	constructor(props){
+	constructor(props) {
 		super(props)
 		this.state = props.store.getState()
 		props.store.subscribe(() => {
+			const { activeCamera, cameraZoom, photo } = this.props.store.getState()
 			this.setState({
-				photo: this.props.store.getState().photo,
-				activeCamera: this.props.store.getState().activeCamera
+				activeCamera,
+				cameraZoom,
+				photo
 			})
 		})
 	}
 
-	render(){
+	render() {
+		// console.log(`state = ${JSON.stringify(this.state, null, 4)}`)
 		return (
 			<View style={this.state.activeCamera ? localStyles.containerActive : localStyles.container}>
 				{this.state.activeCamera ?
-					<Camera
-						style={localStyles.camera}
-						type={this.state.activeCamera}
-						ref={cam => this.camera = cam}>
-						<TouchableOpacity
-							style={localStyles.cameraTouchable}
-							onPress={() => { takePicture(this.camera, this.props.store) }}/>
-					</Camera>
+					<React.Fragment>
+						<Camera
+							style={localStyles.camera}
+							type={this.state.activeCamera}
+							ref={cam => this.camera = cam}
+							zoom={this.state.cameraZoom}
+							faceDetectionClassifications={Camera.Constants.FaceDetection.Classifications.all}
+							faceDetectionMode={Camera.Constants.FaceDetection.Mode.accurate}// or .fast
+							// onBarCodeRead={barCodeData => {
+							// 	console.log(`Got barcode in camera=${JSON.stringify(barCodeData, null, 4)}`)
+							// }}
+							onFacesDetected={faceData => {
+								if (faceData.faces.length > 0) {
+									// console.log(`Got faces in camera=${JSON.stringify(faceData.faces, null, 4)}`)
+									console.log(`smile chances = ${faceData.faces.map(face => {
+										const formatted = (face.smilingProbability * 100).toFixed(2)
+										if (face.smilingProbability > .7) {
+											return `Happy=${formatted}`
+										}
+										if (face.smilingProbability > .4) {
+											return `Meh=${formatted}`
+										}
+										return `Sad=${formatted}`
+									}
+									).join(',')}`)
+								}
+								// else {
+								// 	console.log(`${JSON.stringify(faceData.faces, null, 4)}`)
+								// }
+							}}>
+							<TouchableOpacity
+								style={localStyles.cameraTouchable}
+								onPress={() => { takePicture(this.camera, this.props.store) }}/>
+						</Camera>
+						<Text style={styles.textWhite}>
+							Zoom: {((this.state.cameraZoom + 1.0) * 100.0).toFixed(2)}%
+						</Text>
+						<Slider
+							animateTransitions={true}
+							animationType={'spring'}
+							// maximumValue={200}
+							maximumValue={110}
+							minimumValue={100}
+							onValueChange={newValue => {
+								const actualZoom = (newValue - 100.0) / 100.0
+								console.log(`slider value changed to ${actualZoom}`)
+								this.props.store.dispatch(setCameraZoom(actualZoom))
+							}}
+							step={0.05}
+							// style={{}}
+							// thumbStyle={{}}
+							// thumbTouchSize={{
+							// 	height: 100,
+							// 	width: 100
+							// }}
+							// trackStyle={{}}
+							value={(this.state.cameraZoom + 1.0) * 100.0}
+							/>
+					</React.Fragment>
 					:
 					null
 				}
