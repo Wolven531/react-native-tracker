@@ -6,6 +6,7 @@ import { Camera } from 'expo'
 import {
 	setActiveCamera,
 	setCameraZoom,
+	setFacesDetected,
 	setPhoto
 } from '../actions'
 
@@ -81,10 +82,11 @@ class CameraRenderer extends React.Component {
 		super(props)
 		this.state = props.store.getState()
 		props.store.subscribe(() => {
-			const { activeCamera, cameraZoom, photo } = this.props.store.getState()
+			const { activeCamera, cameraZoom, detectedFaces, photo } = this.props.store.getState()
 			this.setState({
 				activeCamera,
 				cameraZoom,
+				detectedFaces,
 				photo
 			})
 		})
@@ -107,23 +109,25 @@ class CameraRenderer extends React.Component {
 							// 	console.log(`Got barcode in camera=${JSON.stringify(barCodeData, null, 4)}`)
 							// }}
 							onFacesDetected={faceData => {
-								if (faceData.faces.length > 0) {
-									// console.log(`Got faces in camera=${JSON.stringify(faceData.faces, null, 4)}`)
-									console.log(`smile chances = ${faceData.faces.map(face => {
-										const formatted = (face.smilingProbability * 100).toFixed(2)
-										if (face.smilingProbability > .7) {
-											return `Happy=${formatted}`
-										}
-										if (face.smilingProbability > .4) {
-											return `Meh=${formatted}`
-										}
-										return `Sad=${formatted}`
-									}
-									).join(',')}`)
+								if (faceData.faces.length < 1) {
+									// 	console.log(`${JSON.stringify(faceData.faces, null, 4)}`)
+									return
 								}
-								// else {
-								// 	console.log(`${JSON.stringify(faceData.faces, null, 4)}`)
+								if (!this.state.detectedFaces) {
+									this._updateFaceData(faceData)
+								}
+								// console.log(`Got faces in camera=${JSON.stringify(faceData.faces, null, 4)}`)
+								// console.log(`smile chances = ${faceData.faces.map(face => {
+								// 	const formatted = (face.smilingProbability * 100).toFixed(2)
+								// 	if (face.smilingProbability > .7) {
+								// 		return `Happy=${formatted}`
+								// 	}
+								// 	if (face.smilingProbability > .4) {
+								// 		return `Meh=${formatted}`
+								// 	}
+								// 	return `Sad=${formatted}`
 								// }
+								// ).join(',')}`)
 							}}>
 							<TouchableOpacity
 								style={localStyles.cameraTouchable}
@@ -131,6 +135,9 @@ class CameraRenderer extends React.Component {
 						</Camera>
 						<Text style={styles.textWhite}>
 							Zoom: {((this.state.cameraZoom + 1.0) * 100.0).toFixed(2)}%
+						</Text>
+						<Text style={styles.textWhite}>
+							Face Data: {JSON.stringify(this.state.detectedFaces, null, 4)}
 						</Text>
 						<Slider
 							animateTransitions={true}
@@ -140,7 +147,6 @@ class CameraRenderer extends React.Component {
 							minimumValue={100}
 							onValueChange={newValue => {
 								const actualZoom = (newValue - 100.0) / 100.0
-								console.log(`slider value changed to ${actualZoom}`)
 								this.props.store.dispatch(setCameraZoom(actualZoom))
 							}}
 							step={0.05}
@@ -166,18 +172,21 @@ class CameraRenderer extends React.Component {
 	}
 
 	_switchCamera = () => {
-		console.log(`[App][_switchCamera]`)
 		switch(this.state.activeCamera) {
 			case Camera.Constants.Type.back:
-				this.props.store.dispatch(setActiveCamera(null))
+			this.props.store.dispatch(setActiveCamera(null))
 			break;
 			case Camera.Constants.Type.front:
-				this.props.store.dispatch(setActiveCamera(Camera.Constants.Type.back))
+			this.props.store.dispatch(setActiveCamera(Camera.Constants.Type.back))
 			break;
 			default:
-				this.props.store.dispatch(setActiveCamera(Camera.Constants.Type.front))
+			this.props.store.dispatch(setActiveCamera(Camera.Constants.Type.front))
 			break;
 		}
+	}
+
+	_updateFaceData = (newFaceData) => {
+		this.props.store.dispatch(setFacesDetected(newFaceData))
 	}
 }
 

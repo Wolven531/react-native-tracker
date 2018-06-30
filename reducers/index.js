@@ -2,6 +2,7 @@ import * as ActionTypes from '../constants/action-types'
 
 const initialState = {
 	activeCamera: null,
+	detectedFaces: null,
 	permissionsCamera: null,
 	permissionsLocation: null,
 	photo: null,
@@ -11,6 +12,7 @@ const initialState = {
 const payloadRequiredActions = [
 	ActionTypes.SET_ACTIVE_CAMERA,
 	ActionTypes.SET_CAMERA_ZOOM,
+	ActionTypes.SET_FACES_DETECTED,
 	ActionTypes.SET_PERMISSIONS_CAMERA,
 	ActionTypes.SET_PERMISSIONS_LOCATION,
 	ActionTypes.SET_PHOTO
@@ -36,6 +38,11 @@ const mainReducer = (state = initialState, action) => {
 			return {
 				...state,
 				cameraZoom: payload.zoom
+			}
+		case ActionTypes.SET_FACES_DETECTED:
+			return {
+				...state,
+				detectedFaces: payload.faceData
 			}
 		case ActionTypes.SET_PERMISSIONS_CAMERA:
 			return {

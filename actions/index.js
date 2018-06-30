@@ -18,6 +18,15 @@ const setCameraZoom = (newZoom) => {
 	}
 }
 
+const setFacesDetected = (faceData) => {
+	return {
+		type: ActionTypes.SET_FACES_DETECTED,
+		payload: {
+			faceData
+		}
+	}
+}
+
 const setPermissionsCamera = (newCameraPermissions) => {
 	return {
 		type: ActionTypes.SET_PERMISSIONS_CAMERA,
@@ -48,6 +57,7 @@ const setPhoto = (newPhoto) => {
 export {
 	setActiveCamera,
 	setCameraZoom,
+	setFacesDetected,
 	setPermissionsCamera,
 	setPermissionsLocation,
 	setPhoto
