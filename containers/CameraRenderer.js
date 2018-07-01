@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native'
 import { Button, Slider } from 'react-native-elements'
 import { Camera } from 'expo'
 
@@ -9,6 +9,7 @@ import {
 	setFacesDetected,
 	setPhoto
 } from '../actions'
+import { BASE_64_PREFIX } from '../constants/strings'
 
 // import { wrapWithMarginBottom } from '../utils'
 
@@ -114,7 +115,15 @@ class CameraRenderer extends React.Component {
 									return
 								}
 								if (!this.state.detectedFaces) {
-									this._updateFaceData(faceData)
+									this.camera.takePictureAsync({
+										quality: 0.1,
+										base64: true,
+										exif: false
+									}).then(photo => {
+										// console.log(`[PermissionDisplay] Got a picture=${JSON.stringify(photo, null, 4)}`)
+										// targetStore.dispatch(setPhoto(photo))
+										this._updateFaceData(faceData, photo)
+									})
 								}
 								// console.log(`Got faces in camera=${JSON.stringify(faceData.faces, null, 4)}`)
 								// console.log(`smile chances = ${faceData.faces.map(face => {
@@ -136,9 +145,23 @@ class CameraRenderer extends React.Component {
 						<Text style={styles.textWhite}>
 							Zoom: {((this.state.cameraZoom + 1.0) * 100.0).toFixed(2)}%
 						</Text>
-						<Text style={styles.textWhite}>
-							Face Data: {JSON.stringify(this.state.detectedFaces, null, 4)}
-						</Text>
+						{this.state.detectedFaces &&
+							<View style={{}}>
+								{/* {console.log(`Using the base64 of = "${this.state.detectedFaces.photo.base64.substring(0, 10)}...${this.state.detectedFaces.photo.base64.substring(this.state.detectedFaces.photo.base64.length - 5)}"`)} */}
+								<Image
+									source={{ uri: `${BASE_64_PREFIX}${this.state.detectedFaces.photo.base64}` }}
+									style={{ height: 50, width: 50 }} />
+								<Text style={styles.textWhite}>
+									faceData.type: {JSON.stringify(this.state.detectedFaces.type, null, 4)}
+								</Text>
+								<Text style={styles.textWhite}>
+									faceData.faces: {JSON.stringify(this.state.detectedFaces.faces, null, 4)}
+								</Text>
+								<Text style={styles.textWhite}>
+									faceData.target: {JSON.stringify(this.state.detectedFaces.target, null, 4)}
+								</Text>
+							</View>
+						}
 						<Slider
 							animateTransitions={true}
 							animationType={'spring'}
@@ -185,8 +208,11 @@ class CameraRenderer extends React.Component {
 		}
 	}
 
-	_updateFaceData = (newFaceData) => {
-		this.props.store.dispatch(setFacesDetected(newFaceData))
+	_updateFaceData = (newFaceData, photo) => {
+		this.props.store.dispatch(setFacesDetected({
+			...newFaceData,
+			photo
+		}))
 	}
 }
 
