@@ -16,7 +16,7 @@ const localStyles = {
 		backgroundColor: '#0000c8',
 		flex: 1,
 		// flexDirection: 'row',
-		alignItems: 'center',
+		alignItems: 'stretch',
 		alignSelf: 'stretch',
 		justifyContent: 'center',
 		// minHeight: '100%',
@@ -27,32 +27,74 @@ const localStyles = {
 }
 
 class App extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = store.getState()
+	// constructor(props) {
+	// 	super(props)
+		// this.state = store.getState()
 		// store.subscribe(() => {
 		// 	// TODO: replace with `react-redux`?
 		// 	this.render()// if state is needed, use setState instead
 		// })
-	}
-
+	// }
 	render() {
 		// console.log(`[App][render]`)
 		return (
-			<ScrollView
-				style={{
-					backgroundColor: '#0000c8'
-				}}
-				contentContainerStyle={localStyles.container}>
-				<PermissionDisplay store={store} />
-				<CameraRenderer store={store} />
+			<View style={[
+				{
+					justifyContent: 'space-between',
+					backgroundColor: '#00a',
+					flex: 1
+				}
+			]}>
+				{/* Header at top */}
+				<View style={[
+					{
+						backgroundColor: '#ff0',
+						height: 20
+					}
+				]}>
+				</View>
+
+				{/* Top section */}
+				<View style={[
+					{
+						backgroundColor: '#0a0',
+						flex: 1,
+						flexDirection: 'row',
+						// margin: 5
+					}
+				]}>
+					<View style={[
+						{
+							backgroundColor: '#00f',
+							flex: 1,
+							// margin: 5
+						}
+					]}>
+						<CameraRenderer store={store} />
+					</View>
+				</View>
+
+				{/* Bottom section */}
 				{/*
-				{this.state.photo && <ImageBackground
-					style={{ flex: 1, minHeight: 200 }}
-					source={{ uri: this.state.photo }} />}
+				<View style={[
+					{
+						// backgroundColor: '#a00',
+						flex: 1,
+						// margin: 5
+					}
+				]}>
+				</View>
 				*/}
-				{/* <LocationRenderer store={store} /> */}
-			</ScrollView>
+			</View>
+			//<CameraRenderer store={store} />
+			// <ScrollView
+			// 	style={{
+			// 		backgroundColor: '#0000c8'
+			// 	}}
+			// 	contentContainerStyle={localStyles.container}>
+			// <PermissionDisplay store={store} />
+			// <LocationRenderer store={store} />
+			// </ScrollView>
 		)
 	}
 }
