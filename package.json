@@ -16,6 +16,7 @@
 		"redux": "^4.0.0"
 	},
 	"devDependencies": {
+		"@types/react-native": "^0.55.26",
 		"eslint": "^4.19.1"
 	}
 }
