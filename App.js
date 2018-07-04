@@ -2,11 +2,13 @@ import 'core-js'
 import React from 'react'
 // import { ImageBackground, View } from 'react-native'
 import { ScrollView, View } from 'react-native'
+import { Provider } from 'react-redux'
 
+// import { Camera } from 'expo'
 import { CameraRenderer } from './containers/CameraRenderer'
-import { CameraRollRenderer } from './containers/CameraRollRenderer'
-import { PermissionDisplay } from './containers/PermissionDisplay'
-import { LocationRenderer } from './containers/LocationRenderer'
+// import { CameraRollRenderer } from './containers/CameraRollRenderer'
+// import { PermissionDisplay } from './containers/PermissionDisplay'
+// import { LocationRenderer } from './containers/LocationRenderer'
 
 import { store } from './store'
 
@@ -39,55 +41,57 @@ class App extends React.Component {
 	render() {
 		// console.log(`[App][render]`)
 		return (
-			<View style={[
-				{
-					justifyContent: 'space-between',
-					backgroundColor: '#00a',
-					flex: 1
-				}
-			]}>
-				{/* Header at top */}
+			<Provider store={store}>
 				<View style={[
 					{
-						backgroundColor: '#ff0',
-						height: 20
+						justifyContent: 'space-between',
+						backgroundColor: '#00a',
+						flex: 1
 					}
 				]}>
-				</View>
-
-				{/* Top section */}
-				<View style={[
-					{
-						backgroundColor: '#0a0',
-						flex: 1,
-						flexDirection: 'row',
-						// margin: 5
-					}
-				]}>
+					{/* Header at top */}
 					<View style={[
 						{
-							backgroundColor: '#00f',
+							backgroundColor: '#ff0',
+							height: 20
+						}
+					]}>
+					</View>
+
+					{/* Top section */}
+					<View style={[
+						{
+							backgroundColor: '#0a0',
+							flex: 1,
+							flexDirection: 'row',
+							// margin: 5
+						}
+					]}>
+						<View style={[
+							{
+								backgroundColor: '#00f',
+								flex: 1,
+								// margin: 5
+							}
+						]}>
+							<CameraRenderer />
+							{/* <CameraRollRenderer store={store} /> */}
+						</View>
+					</View>
+
+					{/* Bottom section */}
+					{/*
+					<View style={[
+						{
+							// backgroundColor: '#a00',
 							flex: 1,
 							// margin: 5
 						}
 					]}>
-						{/* <CameraRenderer store={store} /> */}
-						<CameraRollRenderer store={store} />
 					</View>
+					*/}
 				</View>
-
-				{/* Bottom section */}
-				{/*
-				<View style={[
-					{
-						// backgroundColor: '#a00',
-						flex: 1,
-						// margin: 5
-					}
-				]}>
-				</View>
-				*/}
-			</View>
+			</Provider>
 			//<CameraRenderer store={store} />
 			// <ScrollView
 			// 	style={{

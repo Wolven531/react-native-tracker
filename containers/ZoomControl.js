@@ -1,6 +1,8 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Slider } from 'react-native-elements'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { setCameraZoom } from '../actions'
 
@@ -16,13 +18,17 @@ const localStyles = {
 		height: 50,
 		justifyContent: 'space-between',
 		marginBottom: 10,
-		marginLeft: 10,
-		marginRight: 10,
+		marginHorizontal: 10,
 		paddingLeft: 10
+	},
+	slider: {
+		flex: 1,
+		marginLeft: 10,
+		marginRight: 30
 	}
 }
 
-const ZoomControl = ({ cameraZoom = 0, store = null }) => {
+const ZoomControl = ({ cameraZoom = 0, onZoomUpdate }) => {
 	return (
 		<View style={localStyles.container}>
 			<Text style={[ styles.textWhite, { width: 110 } ]}>
@@ -33,25 +39,38 @@ const ZoomControl = ({ cameraZoom = 0, store = null }) => {
 				animationType={'spring'}
 				maximumValue={110}
 				minimumValue={100}
-				onValueChange={newValue => {
-					const actualZoom = (newValue - 100.0) / 100.0
-					if (!store) {
-						return
-					}
-					store.dispatch(setCameraZoom(actualZoom))
-				}}
+				onValueChange={onZoomUpdate}
 				step={0.05}
 				value={(cameraZoom + 1.0) * 100.0}
-				style={[
-					{
-						flex: 1,
-						marginLeft: 10,
-						marginRight: 30
-					}
-				]}
+				style={localStyles.slider}
 			/>
 		</View>
 	)
 }
+
+ZoomControl.propTypes = {
+	cameraZoom: PropTypes.number.isRequired,
+	onZoomUpdate: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => {
+	const { cameraZoom } = state
+	return {
+		cameraZoom
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	const onZoomUpdate = newValue => {
+		const actualZoom = (newValue - 100.0) / 100.0
+		dispatch(setCameraZoom(actualZoom))
+	}
+
+	return {
+		onZoomUpdate
+	}
+}
+
+ZoomControl = connect(mapStateToProps, mapDispatchToProps)(ZoomControl)
 
 export { ZoomControl }
