@@ -6,12 +6,14 @@ const initialState = {
 	permissionsCamera: null,
 	permissionsLocation: null,
 	photo: null,
+	cameraRollPhotos: [],
 	cameraZoom: 0
 }
 
 const payloadRequiredActions = [
 	ActionTypes.SET_ACTIVE_CAMERA,
 	ActionTypes.SET_CAMERA_ZOOM,
+	ActionTypes.SET_CAMERAROLL_PHOTOS,
 	ActionTypes.SET_FACES_DETECTED,
 	ActionTypes.SET_PERMISSIONS_CAMERA,
 	ActionTypes.SET_PERMISSIONS_LOCATION,
@@ -38,6 +40,11 @@ const mainReducer = (state = initialState, action) => {
 			return {
 				...state,
 				cameraZoom: payload.zoom
+			}
+		case ActionTypes.SET_CAMERAROLL_PHOTOS:
+			return {
+				...state,
+				cameraRollPhotos: payload.photos
 			}
 		case ActionTypes.SET_FACES_DETECTED:
 			return {

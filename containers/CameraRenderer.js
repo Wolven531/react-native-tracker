@@ -3,7 +3,7 @@ import React from 'react'
 // Image is for simple image display
 // ImageBackground is for nesting things inside the image
 // import { Image, Text, TouchableOpacity } from 'react-native'
-import { View } from 'react-native'
+import { CameraRoll, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import { Camera } from 'expo'
 
@@ -122,7 +122,7 @@ class CameraRenderer extends React.Component {
 		// const newY = position.y - landmarkSize / 2
 		const newX = 0
 		const newY = 0
-		console.log(`face (x=${origin.x},y=${origin.y}) point ${JSON.stringify(position)} render (x=${newX},y=${newY})`)
+		// console.log(`face (x=${origin.x},y=${origin.y}) point ${JSON.stringify(position)} render (x=${newX},y=${newY})`)
 		return (
 			<View
 				style={[
@@ -209,6 +209,7 @@ class CameraRenderer extends React.Component {
 
 	_setCameraReference = (cameraReference) => this.camera = cameraReference
 
+	// TODO: fix the error that this will cause if face detection is running during switch
 	_switchCamera = () => {
 		switch (this.state.activeCamera) {
 			case Camera.Constants.Type.back:
@@ -224,15 +225,15 @@ class CameraRenderer extends React.Component {
 	}
 
 	_takePicture = () => {
-		this.camera.takePictureAsync({
-				base64: true,
-				exif: false,
-				quality: cameraQuality
-			})
-			.then(photo => {
-				this.props.store.dispatch(setPhoto(photo))
-			})
-			.catch(err => console.error(`Error taking picture = ${JSON.stringify(err, null, 4)}`))
+		// this.camera.takePictureAsync({
+		// 		base64: true,
+		// 		exif: false,
+		// 		quality: cameraQuality
+		// 	})
+		// 	.then(photo => {
+		// 		this.props.store.dispatch(setPhoto(photo))
+		// 	})
+		// 	.catch(err => console.error(`Error taking picture = ${JSON.stringify(err, null, 4)}`))
 	}
 
 	_updateFaceData = (newFaceData, photo) => {

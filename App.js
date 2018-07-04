@@ -4,6 +4,7 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 
 import { CameraRenderer } from './containers/CameraRenderer'
+import { CameraRollRenderer } from './containers/CameraRollRenderer'
 import { PermissionDisplay } from './containers/PermissionDisplay'
 import { LocationRenderer } from './containers/LocationRenderer'
 
@@ -70,7 +71,8 @@ class App extends React.Component {
 							// margin: 5
 						}
 					]}>
-						<CameraRenderer store={store} />
+						{/* <CameraRenderer store={store} /> */}
+						<CameraRollRenderer store={store} />
 					</View>
 				</View>
 
