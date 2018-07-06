@@ -49,7 +49,7 @@ const ZoomControl = ({ cameraZoom = 0, onZoomUpdate }) => {
 }
 
 ZoomControl.propTypes = {
-	cameraZoom: PropTypes.number.isRequired,
+	cameraZoom: PropTypes.number,
 	onZoomUpdate: PropTypes.func.isRequired
 }
 

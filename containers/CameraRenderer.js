@@ -8,8 +8,7 @@ import PropTypes from 'prop-types'
 
 import {
 	setActiveCamera,
-	setFacesDetected,
-	// setPhoto
+	setFacesDetected
 } from '../actions'
 // import { BASE_64_PREFIX } from '../constants/strings'
 
@@ -63,110 +62,52 @@ const localStyles = {
 		width: landmarkSize
 	}
 }
+const renderFaceHighlight = (face) => {
+	const { origin, size } = face.bounds
+	const { height, width } = size
+	return (
+		<View
+			style={[
+				localStyles.face,
+				{
+					// ...face.bounds.size,// NOTE: alternative for width and height
+					height,
+					// position: 'absolute',
+					left: origin.x,
+					top: origin.y,
+					width
+				}
+			]}
+			// transform={[
+			// 	{ perspective: 1000 },
+			// 	{ rotateY: `${face.yawAngle.toFixed(0)}deg` },
+			// 	{ rotateZ: `${face.rollAngle.toFixed(0)}deg` },
+			// ]}
+			>
+			{/*
+			{CameraRenderer.renderLandmark(face.leftEyePosition, origin)}
+			{CameraRenderer.renderLandmark(face.rightEyePosition, origin)}
+			*/}
+			{/*
+			<Image
+				source={{ uri: `${BASE_64_PREFIX}${this.state.detectedFaces.photo.base64}` }}
+				style={{ height: 50, width: 50 }} />
+			*/}
+		</View>
+	)
+}
 
-class CameraRenderer extends React.Component {
-	static renderFaceHighlight = (face) => {
-		const { origin, size } = face.bounds
-		const { height, width } = size
-		return (
-			<View
-				style={[
-					localStyles.face,
-					{
-						// ...face.bounds.size,// NOTE: alternative for width and height
-						height,
-						// position: 'absolute',
-						left: origin.x,
-						top: origin.y,
-						width
-					}
-				]}
-				// transform={[
-				// 	{ perspective: 1000 },
-				// 	{ rotateY: `${face.yawAngle.toFixed(0)}deg` },
-				// 	{ rotateZ: `${face.rollAngle.toFixed(0)}deg` },
-				// ]}
-				>
-				{/*
-				{CameraRenderer.renderLandmark(face.leftEyePosition, origin)}
-				{CameraRenderer.renderLandmark(face.rightEyePosition, origin)}
-				*/}
-				{/*
-				<Image
-					source={{ uri: `${BASE_64_PREFIX}${this.state.detectedFaces.photo.base64}` }}
-					style={{ height: 50, width: 50 }} />
-				*/}
-			</View>
-		)
-	}
-	
-	// static renderLandmark = (position, origin) => {
-	// 	if (!position) {
-	// 		return null
-	// 	}
-	// 	const newX = position.x - landmarkSize / 2
-	// 	const newY = position.y - landmarkSize / 2
-	// 	// const newX = 0
-	// 	// const newY = 0
-	// 	// console.log(`face (x=${origin.x},y=${origin.y}) point ${JSON.stringify(position)} render (x=${newX},y=${newY})`)
-	// 	return (
-	// 		<View
-	// 			style={[
-	// 				styles.landmark,
-	// 				{
-	// 					left: newX,
-	// 					top: newY,
-	// 				}
-	// 			]} />
-	// 	)
-	// }
+const StatelessCameraRenderer = ({ activeCamera,
+									cameraZoom,
+									detectedFaces,
+									onSwitchCameraClick,
+									updateFaceData }) => {
+	this.camera = null
 
-	camera = null
-
-	render() {
-		return (
-			<View style={localStyles.container}>
-				<View style={localStyles.blankBackground}>
-					{this.props.activeCamera &&
-						<Camera ref={this._setCameraReference}
-							style={localStyles.camera}
-							type={this.props.activeCamera}
-							zoom={this.props.cameraZoom}
-							faceDetectionClassifications={Camera.Constants.FaceDetection.Classifications.all}
-							faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
-							faceDetectionMode={Camera.Constants.FaceDetection.Mode.accurate}// or .fast
-							onBarCodeRead={this._handleBarCodeRead}
-							onFacesDetected={this._handleFacesDetected}>
-								{this.props.detectedFaces &&
-									<View style={{
-										// backgroundColor: 'rgba(0, 255, 0, .5)',
-										flex: 1
-										// position: 'absolute', top: 0, left: 0, right: 0, bottom: 0
-									}}>
-										{CameraRenderer.renderFaceHighlight(this.props.detectedFaces.faces[0])}
-										{/*
-										{CameraRenderer.renderLandmark(this.props.detectedFaces.faces[0].leftEyePosition, this.props.detectedFaces.faces[0].bounds.origin)}
-										{CameraRenderer.renderLandmark(this.props.detectedFaces.faces[0].rightEyePosition, this.props.detectedFaces.faces[0].bounds.origin)}
-										*/}
-									</View>
-								}
-								{/*
-								<TouchableOpacity style={localStyles.cameraTouchable} onPress={this._takePicture} />
-								*/}
-						</Camera>
-					}
-				</View>
-				<ZoomControl cameraZoom={this.props.cameraZoom} />
-				<Button buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera" onPress={() => this.props.onSwitchCameraClick(this.props.activeCamera)} />]
-			</View>
-		)
-	}
-
-	_handleBarCodeRead = (barCodeData) => {
+	const _handleBarCodeRead = (barCodeData) => {
 		// console.log(`Got barcode in camera=${JSON.stringify(barCodeData, null, 4)}`)
 	}
-
-	_handleFacesDetected = (faceData) => {
+	const _handleFacesDetected = (faceData) => {
 		if (faceData.faces.length < 1) {
 			return
 		}
@@ -176,44 +117,70 @@ class CameraRenderer extends React.Component {
 				quality: cameraQuality
 			})
 			.then(photo => {
-				this.props.updateFaceData(faceData, photo)
+				updateFaceData(faceData, photo)
 			})
 			.catch(err => console.error(`Error taking picture = ${JSON.stringify(err, null, 4)}`))
 	}
+	const _setCameraReference = (cameraReference) => this.camera = cameraReference
 
-	_setCameraReference = (cameraReference) => this.camera = cameraReference
-
-	// _takePicture = () => {
-	// 	this.camera.takePictureAsync({
-	// 			base64: true,
-	// 			exif: false,
-	// 			quality: cameraQuality
-	// 		})
-	// 		.then(photo => {
-	// 			this.props.store.dispatch(setPhoto(photo))
-	// 		})
-	// 		.catch(err => console.error(`Error taking picture = ${JSON.stringify(err, null, 4)}`))
-	// }
+	return (
+		<View style={localStyles.container}>
+			<View style={localStyles.blankBackground}>
+				{activeCamera &&
+					<Camera ref={_setCameraReference}
+						style={localStyles.camera}
+						type={activeCamera}
+						zoom={cameraZoom}
+						faceDetectionClassifications={Camera.Constants.FaceDetection.Classifications.all}
+						faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
+						faceDetectionMode={Camera.Constants.FaceDetection.Mode.accurate}// or .fast
+						onBarCodeRead={_handleBarCodeRead}
+						onFacesDetected={_handleFacesDetected}>
+							{detectedFaces &&
+								<View style={{
+									// backgroundColor: 'rgba(0, 255, 0, .5)',
+									flex: 1
+									// position: 'absolute', top: 0, left: 0, right: 0, bottom: 0
+								}}>
+									{renderFaceHighlight(detectedFaces.faces[0])}
+									{/*
+									{CameraRenderer.renderLandmark(detectedFaces.faces[0].leftEyePosition, detectedFaces.faces[0].bounds.origin)}
+									{CameraRenderer.renderLandmark(detectedFaces.faces[0].rightEyePosition, detectedFaces.faces[0].bounds.origin)}
+									*/}
+								</View>
+							}
+							{/*
+							<TouchableOpacity style={localStyles.cameraTouchable} onPress={this._takePicture} />
+							*/}
+					</Camera>
+				}
+			</View>
+			{console.log(`rendering zoom control... cameraZoom=${cameraZoom}`)}
+			<ZoomControl cameraZoom={cameraZoom} />
+			<Button buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera" onPress={() => onSwitchCameraClick(activeCamera)} />]
+		</View>
+	)
 }
 
-CameraRenderer.propTypes = {
+StatelessCameraRenderer.propTypes = {
 	activeCamera: PropTypes.oneOf([null, Camera.Constants.Type.back, Camera.Constants.Type.front]),
 	cameraZoom: PropTypes.number,
+	detectedFaces: PropTypes.object,
 	onSwitchCameraClick: PropTypes.func.isRequired,
 	updateFaceData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
-	const { activeCamera, cameraZoom, detectedFaces, photo } = state
+	const { activeCamera, cameraZoom, detectedFaces } = state.camera
+	console.log(`making props happen... cameraZoom=${cameraZoom}`)
 	return {
 		activeCamera,
 		cameraZoom,
-		detectedFaces,
-		photo
+		detectedFaces
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 	const onSwitchCameraClick = (activeCamera) => {
 		switch (activeCamera) {
 			case Camera.Constants.Type.back:
@@ -239,8 +206,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-// TODO: seperate container out so this syntax is not needed
-CameraRenderer = connect(mapStateToProps, mapDispatchToProps)(CameraRenderer)
+const CameraRenderer = connect(mapStateToProps, mapDispatchToProps)(StatelessCameraRenderer)
 
 export {
 	CameraRenderer

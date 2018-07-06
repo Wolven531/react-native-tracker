@@ -74,7 +74,7 @@ class App extends React.Component {
 								// margin: 5
 							}
 						]}>
-							<CameraRenderer />
+							<CameraRenderer props={store.getState().camera} />
 							{/* <CameraRollRenderer store={store} /> */}
 						</View>
 					</View>
