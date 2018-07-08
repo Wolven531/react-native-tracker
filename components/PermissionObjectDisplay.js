@@ -12,8 +12,7 @@ const localStyles = {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		// maxHeight: 40,
-		paddingLeft: 10,
-		paddingRight: 10
+		paddingHorizontal: 10
 	}
 }
 

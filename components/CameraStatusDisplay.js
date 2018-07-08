@@ -14,19 +14,18 @@ const localStyles = {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		// maxHeight: 40,
-		paddingLeft: 10,
-		paddingRight: 10
+		paddingHorizontal: 10
 	}
 }
 
-const CameraStatusDisplay = (props) => {
+const CameraStatusDisplay = ({ activeCamera }) => {
 	let cameraStatusStyle = styles.textRed
 	let cameraStatus = 'Inactive'
 
-	if (props.activeCamera) {
+	if (activeCamera) {
 		cameraStatusStyle = styles.highlightGreen
 
-		switch(props.activeCamera) {
+		switch(activeCamera) {
 			case Camera.Constants.Type.back:
 				cameraStatus = 'Back'
 			break;

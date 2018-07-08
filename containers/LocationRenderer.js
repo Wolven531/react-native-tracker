@@ -36,9 +36,7 @@ class LocationRenderer extends React.Component {
 	// }
 
 	render() {
-		console.log(`[LocationRenderer][render]`)
 		if (!this.state.permissionsLocation) {
-			console.log(`[LocationRenderer][render] No perms`)
 			return (
 				<View style={{
 					alignSelf: 'stretch',
@@ -51,7 +49,6 @@ class LocationRenderer extends React.Component {
 				</View>
 			)
 		}
-		console.log(`[LocationRenderer][render] Had permissions`)
 		return (
 			<View style={{
 				// alignSelf: 'stretch',

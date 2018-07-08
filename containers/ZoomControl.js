@@ -54,7 +54,7 @@ ZoomControl.propTypes = {
 }
 
 const mapStateToProps = state => {
-	const { cameraZoom } = state
+	const { cameraZoom } = state.camera
 	return {
 		cameraZoom
 	}

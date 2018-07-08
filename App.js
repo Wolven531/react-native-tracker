@@ -1,5 +1,8 @@
 import 'core-js'
 import React from 'react'
+// import { render } from 'react-dom'
+
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 // import { ImageBackground, View } from 'react-native'
 import { ScrollView, View } from 'react-native'
 import { Provider } from 'react-redux'
@@ -30,69 +33,67 @@ const localStyles = {
 }
 
 class App extends React.Component {
-	// constructor(props) {
-	// 	super(props)
-		// this.state = store.getState()
-		// store.subscribe(() => {
-		// 	// TODO: replace with `react-redux`?
-		// 	this.render()// if state is needed, use setState instead
-		// })
-	// }
 	render() {
-		// console.log(`[App][render]`)
 		return (
-			<Provider store={store}>
+			<View style={[
+				{
+					justifyContent: 'space-between',
+					backgroundColor: '#00a',
+					flex: 1
+				}
+			]}>
+				{/* Header at top */}
 				<View style={[
 					{
-						justifyContent: 'space-between',
-						backgroundColor: '#00a',
-						flex: 1
+						backgroundColor: '#ff0',
+						height: 20
 					}
 				]}>
-					{/* Header at top */}
-					<View style={[
-						{
-							backgroundColor: '#ff0',
-							height: 20
-						}
-					]}>
-					</View>
-
-					{/* Top section */}
-					<View style={[
-						{
-							backgroundColor: '#0a0',
-							flex: 1,
-							flexDirection: 'row',
-							// margin: 5
-						}
-					]}>
-						<View style={[
-							{
-								backgroundColor: '#00f',
-								flex: 1,
-								// margin: 5
-							}
-						]}>
-							<CameraRenderer props={store.getState().camera} />
-							{/* <CameraRollRenderer store={store} /> */}
-						</View>
-					</View>
-
-					{/* Bottom section */}
-					{/*
-					<View style={[
-						{
-							// backgroundColor: '#a00',
-							flex: 1,
-							// margin: 5
-						}
-					]}>
-					</View>
-					*/}
 				</View>
-			</Provider>
-			//<CameraRenderer store={store} />
+
+				{/* Top section */}
+				<View style={[
+					{
+						backgroundColor: '#0a0',
+						flex: 1,
+						flexDirection: 'row',
+						// margin: 5
+					}
+				]}>
+					<View style={[
+						{
+							backgroundColor: '#00f',
+							flex: 1,
+							// margin: 5
+						}
+					]}>
+						<Provider store={store}>
+							{/*
+							<Router>
+								<Route path="/camera">
+							*/}
+								<CameraRenderer props={store.getState().camera} />
+							{/*
+								</Route>
+							</Router>
+							*/}
+						</Provider>
+						{/* <CameraRollRenderer store={store} /> */}
+					</View>
+				</View>
+
+				{/* Bottom section */}
+				{/*
+				<View style={[
+					{
+						// backgroundColor: '#a00',
+						flex: 1,
+						// margin: 5
+					}
+				]}>
+				</View>
+				*/}
+			</View>
 			// <ScrollView
 			// 	style={{
 			// 		backgroundColor: '#0000c8'
