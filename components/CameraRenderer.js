@@ -20,7 +20,16 @@ const localStyles = {
 	buttonSwitchCamera: {
 		backgroundColor: '#fa0',
 		borderRadius: 99999,
-		// marginHorizontal: 0
+		borderWidth: 2,
+		marginVertical: 5,
+		paddingHorizontal: 75,
+		paddingVertical: 20,
+		shadowOffset: {
+			height: 10,
+			width: 10
+		},
+		shadowOpacity: .5,
+		shadowRadius: 10
 	},
 	camera: {
 		flex: 1,
