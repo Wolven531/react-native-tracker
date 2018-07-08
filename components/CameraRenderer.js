@@ -164,6 +164,9 @@ CameraRenderer.propTypes = {
 	activeCamera: PropTypes.oneOf([null, Camera.Constants.Type.back, Camera.Constants.Type.front]),
 	cameraZoom: PropTypes.number,
 	detectedFaces: PropTypes.object,
+	navigation: PropTypes.shape({
+		getParam: PropTypes.func.isRequired
+	}).isRequired,
 	onSwitchCameraClick: PropTypes.func.isRequired,
 	updateFaceData: PropTypes.func.isRequired
 }
