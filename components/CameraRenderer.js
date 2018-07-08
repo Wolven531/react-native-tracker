@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Image, Text, TouchableOpacity } from 'react-native'
 import { View } from 'react-native'
-// import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { Camera } from 'expo'
 import PropTypes from 'prop-types'
 
@@ -144,6 +144,9 @@ class CameraRenderer extends React.Component {
 					}
 				</View>
 				<ZoomControl cameraZoom={this.props.cameraZoom} />
+				<Button
+					buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera"
+					onPress={this._handleSwitchCamera} />
 			</View>
 		)
 	}
@@ -167,6 +170,17 @@ class CameraRenderer extends React.Component {
 			.catch(err => {
 				// console.info(`Error taking picture = ${JSON.stringify(err, null, 4)}`)
 			})
+	}
+
+	_handleSwitchCamera = () => {
+		switch (this.props.activeCamera) {
+			case Camera.Constants.Type.front:
+				this.props.navigation.setParams({ activeCamera: Camera.Constants.Type.back })
+			break
+			case Camera.Constants.Type.back:
+				this.props.navigation.setParams({ activeCamera: Camera.Constants.Type.front })
+			break
+		}
 	}
 
 	_setCameraReference = cameraReference => this.camera = cameraReference

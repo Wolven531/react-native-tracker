@@ -57,7 +57,7 @@ class HomeScreen extends React.Component {
 				</View>
 				<View style={localStyles.contentCell}>
 					<Button 
-						title="Go to Front Camera" onPress={this._navigateToFrontCamera}
+						title="Front Camera" onPress={this._navigateToFrontCamera}
 						buttonStyle={[
 							localStyles.button,
 							{
@@ -66,7 +66,7 @@ class HomeScreen extends React.Component {
 						]}
 						/>
 					<Button 
-						title="Go to Back Camera" onPress={this._navigateToBackCamera}
+						title="Rear Camera" onPress={this._navigateToBackCamera}
 						buttonStyle={[
 							localStyles.button,
 							{
