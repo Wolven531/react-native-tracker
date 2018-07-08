@@ -1,12 +1,8 @@
-import 'core-js'
+import { Camera } from 'expo'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Camera } from 'expo'
-
-import { setActiveCamera } from '../actions'
 
 import { styles } from '../styles'
 
@@ -48,7 +44,8 @@ const localStyles = {
 	}
 }
 
-const StatelessHomeScreen = ({ navigateToBackCamera, navigateToFrontCamera }) => {
+class HomeScreen extends React.Component {
+	render () {
 		return (
 			<View style={localStyles.container}>
 				<View style={localStyles.headerCell}>
@@ -56,7 +53,7 @@ const StatelessHomeScreen = ({ navigateToBackCamera, navigateToFrontCamera }) =>
 				</View>
 				<View style={localStyles.contentCell}>
 					<Button 
-						title="Go to Front Camera" onPress={navigateToFrontCamera}
+						title="Go to Front Camera" onPress={this._navigateToFrontCamera}
 						buttonStyle={[
 							localStyles.button,
 							{
@@ -65,7 +62,7 @@ const StatelessHomeScreen = ({ navigateToBackCamera, navigateToFrontCamera }) =>
 						]}
 						/>
 					<Button 
-						title="Go to Back Camera" onPress={navigateToBackCamera}
+						title="Go to Back Camera" onPress={this._navigateToBackCamera}
 						buttonStyle={[
 							localStyles.button,
 							{
@@ -78,33 +75,26 @@ const StatelessHomeScreen = ({ navigateToBackCamera, navigateToFrontCamera }) =>
 				</View>
 			</View>
 		)
-}
+	}
 
-StatelessHomeScreen.propTypes = {
-	navigateToBackCamera: PropTypes.func.isRequired,
-	navigateToFrontCamera: PropTypes.func.isRequired,
-	navigation: PropTypes.shape({
-		navigate: PropTypes.func.isRequired
-	}).isRequired
-}
+	_navigateToBackCamera = () => {
+		this.props.navigation.push('Camera', {
+			activeCamera: Camera.Constants.Type.back
+		})
+	}
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		navigateToBackCamera: () => {
-			dispatch(setActiveCamera(Camera.Constants.Type.back))
-			ownProps.navigation.push('Camera', {
-				activeCamera: Camera.Constants.Type.back
-			})
-		},
-		navigateToFrontCamera: () => {
-			dispatch(setActiveCamera(Camera.Constants.Type.front))
-			ownProps.navigation.push('Camera', {
-				activeCamera: Camera.Constants.Type.front
-			})
-		}
+	_navigateToFrontCamera = () => {
+		this.props.navigation.push('Camera', {
+			activeCamera: Camera.Constants.Type.front
+		})
 	}
 }
 
-const HomeScreen = connect(null, mapDispatchToProps)(StatelessHomeScreen)
+HomeScreen.propTypes = {
+	navigation: PropTypes.shape({
+		// navigate: PropTypes.func.isRequired
+		push: PropTypes.func.isRequired
+	}).isRequired
+}
 
 export { HomeScreen }

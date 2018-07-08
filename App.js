@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { createStackNavigator } from 'react-navigation'
 
 import { CameraRenderer } from './containers/CameraRenderer'
-import { HomeScreen } from './containers/HomeScreen'
+import { HomeScreen } from './components/HomeScreen'
 // import { CameraRollRenderer } from './containers/CameraRollRenderer'
 // import { PermissionDisplay } from './containers/PermissionDisplay'
 // import { LocationRenderer } from './containers/LocationRenderer'

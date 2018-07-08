@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Image, Text, TouchableOpacity } from 'react-native'
 import {  View } from 'react-native'
-import { Button } from 'react-native-elements'
+// import { Button } from 'react-native-elements'
 import { Camera } from 'expo'
 import PropTypes from 'prop-types'
 
@@ -90,18 +90,61 @@ const renderFaceHighlight = face => {
 	)
 }
 
-const CameraRenderer = ({ activeCamera,
-							cameraZoom,
-							detectedFaces,
-							onSwitchCameraClick,
-							updateFaceData }) => {
-	this.camera = null
+class CameraRenderer extends React.Component {
+	camera = null// NOTE: property is set in _setCameraReference
 
-	const _handleBarCodeRead = barCodeData => {
+	render () {
+		// TODO: fix when facesDetected gets fired one time after switch active camera
+		// and thus the face highlight shows up after camera switches
+		// console.log(`faces is null ? ${detectedFaces === null}`)
+		return (
+			<View style={localStyles.container}>
+				<View style={localStyles.blankBackground}>
+					{this.props.activeCamera &&
+						<Camera ref={this._setCameraReference}
+							style={localStyles.camera}
+							type={this.props.activeCamera}
+							zoom={this.props.cameraZoom}
+							faceDetectionClassifications={Camera.Constants.FaceDetection.Classifications.all}
+							faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
+							faceDetectionMode={Camera.Constants.FaceDetection.Mode.accurate}// or .fast
+							onBarCodeRead={this._handleBarCodeRead}
+							onFacesDetected={this._handleFacesDetected}>
+								{this.props.detectedFaces &&
+									<View style={{
+										// backgroundColor: 'rgba(0, 255, 0, .5)',
+										flex: 1
+										// position: 'absolute', top: 0, left: 0, right: 0, bottom: 0
+									}}>
+										{renderFaceHighlight(this.props.detectedFaces.faces[0])}
+										{/*
+										{CameraRenderer.renderLandmark(detectedFaces.faces[0].leftEyePosition, detectedFaces.faces[0].bounds.origin)}
+										{CameraRenderer.renderLandmark(detectedFaces.faces[0].rightEyePosition, detectedFaces.faces[0].bounds.origin)}
+										*/}
+									</View>
+								}
+								{/*
+								<TouchableOpacity style={localStyles.cameraTouchable} onPress={this._takePicture} />
+								*/}
+						</Camera>
+					}
+				</View>
+				<ZoomControl cameraZoom={this.props.cameraZoom} />
+				{/*
+				<Button
+					buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera"
+					onPress={this._handleSwitchCamera} />
+				*/}
+			</View>
+		)
+	}
+
+	_handleBarCodeRead = barCodeData => {
 		// console.log(`Got barcode in camera=${JSON.stringify(barCodeData, null, 4)}`)
 	}
-	const _handleFacesDetected = faceData => {
-		if (faceData.faces.length < 1) {
+
+	_handleFacesDetected = faceData => {
+		if (!this.camera || faceData.faces.length < 1) {
 			return
 		}
 		this.camera.takePictureAsync({
@@ -110,54 +153,19 @@ const CameraRenderer = ({ activeCamera,
 				quality: cameraQuality
 			})
 			.then(photo => {
-				updateFaceData(faceData, photo)
+				this.props.updateFaceData(faceData, photo)
 			})
 			.catch(err => {
 				// console.info(`Error taking picture = ${JSON.stringify(err, null, 4)}`)
 			})
 	}
-	const _setCameraReference = cameraReference => this.camera = cameraReference
 
-	// TODO: fix when facesDetected gets fired one time after switch active camera
-	// and thus the face highlight shows up after camera switches
-	// console.log(`faces is null ? ${detectedFaces === null}`)
+	// _handleSwitchCamera = () => {
+	// 	console.log(`[_handleSwitchCamera] this.props.activeCamera = ${this.props.activeCamera}`)
+	// 	this.props.onSwitchCameraClick(this.props.activeCamera)
+	// }
 
-	return (
-		<View style={localStyles.container}>
-			<View style={localStyles.blankBackground}>
-				{activeCamera &&
-					<Camera ref={_setCameraReference}
-						style={localStyles.camera}
-						type={activeCamera}
-						zoom={cameraZoom}
-						faceDetectionClassifications={Camera.Constants.FaceDetection.Classifications.all}
-						faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
-						faceDetectionMode={Camera.Constants.FaceDetection.Mode.accurate}// or .fast
-						onBarCodeRead={_handleBarCodeRead}
-						onFacesDetected={_handleFacesDetected}>
-							{detectedFaces &&
-								<View style={{
-									// backgroundColor: 'rgba(0, 255, 0, .5)',
-									flex: 1
-									// position: 'absolute', top: 0, left: 0, right: 0, bottom: 0
-								}}>
-									{renderFaceHighlight(detectedFaces.faces[0])}
-									{/*
-									{CameraRenderer.renderLandmark(detectedFaces.faces[0].leftEyePosition, detectedFaces.faces[0].bounds.origin)}
-									{CameraRenderer.renderLandmark(detectedFaces.faces[0].rightEyePosition, detectedFaces.faces[0].bounds.origin)}
-									*/}
-								</View>
-							}
-							{/*
-							<TouchableOpacity style={localStyles.cameraTouchable} onPress={this._takePicture} />
-							*/}
-					</Camera>
-				}
-			</View>
-			<ZoomControl cameraZoom={cameraZoom} />
-			<Button buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera" onPress={() => onSwitchCameraClick(activeCamera)} />]
-		</View>
-	)
+	_setCameraReference = cameraReference => this.camera = cameraReference
 }
 
 CameraRenderer.propTypes = {
@@ -167,7 +175,7 @@ CameraRenderer.propTypes = {
 	navigation: PropTypes.shape({
 		getParam: PropTypes.func.isRequired
 	}).isRequired,
-	onSwitchCameraClick: PropTypes.func.isRequired,
+	// onSwitchCameraClick: PropTypes.func.isRequired,
 	updateFaceData: PropTypes.func.isRequired
 }
 

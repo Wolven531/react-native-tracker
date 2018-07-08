@@ -9,31 +9,34 @@ import {
 
 import { CameraRenderer as StatelessCameraRenderer } from '../components/CameraRenderer'
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+	const { navigation } = ownProps
 	const { activeCamera, cameraZoom, detectedFaces } = state.camera
+	const paramActiveCamera = navigation.getParam('activeCamera', activeCamera)
+	// const wereParamsSupplied = ownProps.navigation.state.params !== null
+
 	return {
-		activeCamera,
+		activeCamera: paramActiveCamera,
 		cameraZoom,
 		detectedFaces
 	}
 }
 
 const mapDispatchToProps = dispatch => {
-	const onSwitchCameraClick = (activeCamera) => {
-		let action
-		switch (activeCamera) {
-			case Camera.Constants.Type.back:
-			action = setActiveCamera(null)
-			break;
-			case Camera.Constants.Type.front:
-			action = setActiveCamera(Camera.Constants.Type.back)
-			break;
-			default:
-			action = setActiveCamera(Camera.Constants.Type.front)
-			break;
-		}
-		dispatch(action)
-	}
+	// const onSwitchCameraClick = activeCamera => {
+	// 	console.log(`[onSwitchCameraClick] activeCamera = ${activeCamera}`)
+	// 	switch (activeCamera) {
+	// 		case Camera.Constants.Type.back:
+	// 			dispatch(setActiveCamera(null))
+	// 		break;
+	// 		case Camera.Constants.Type.front:
+	// 			dispatch(setActiveCamera(Camera.Constants.Type.back))
+	// 		break;
+	// 		default:
+	// 			dispatch(setActiveCamera(Camera.Constants.Type.front))
+	// 		break;
+	// 	}
+	// }
 	const updateFaceData = (newFaceData, photo) => {
 		dispatch(setFacesDetected({
 			...newFaceData,
@@ -41,7 +44,7 @@ const mapDispatchToProps = dispatch => {
 		}))
 	}
 	return {
-		onSwitchCameraClick,
+		// onSwitchCameraClick,
 		updateFaceData
 	}
 }
