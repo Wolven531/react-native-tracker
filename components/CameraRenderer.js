@@ -92,6 +92,19 @@ const renderFaceHighlight = face => {
 }
 
 class CameraRenderer extends React.Component {
+	static navigationOptions = ({ navigation }) => {
+		const paramActiveCamera = navigation.getParam('activeCamera', null)
+		let title = ''
+
+		if (paramActiveCamera === Camera.Constants.Type.front) {
+			title = 'Front Camera (Face Finder)'
+		} else if (paramActiveCamera === Camera.Constants.Type.back) {
+			title = 'Rear Camera (Face Finder)'
+		}
+
+		return { title }
+	}
+
 	camera = null// NOTE: property is set in _setCameraReference
 
 	render () {

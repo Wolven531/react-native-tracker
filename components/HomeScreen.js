@@ -45,6 +45,10 @@ const localStyles = {
 }
 
 class HomeScreen extends React.Component {
+	static navigationOptions = {
+		title: 'Home'
+	}
+
 	render () {
 		return (
 			<View style={localStyles.container}>
