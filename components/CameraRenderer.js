@@ -1,6 +1,6 @@
 import React from 'react'
 // import { Image, Text, TouchableOpacity } from 'react-native'
-import {  View } from 'react-native'
+import { View } from 'react-native'
 // import { Button } from 'react-native-elements'
 import { Camera } from 'expo'
 import PropTypes from 'prop-types'
@@ -55,6 +55,7 @@ const localStyles = {
 		width: landmarkSize
 	}
 }
+
 const renderFaceHighlight = face => {
 	const { origin, size } = face.bounds
 	const { height, width } = size
@@ -130,11 +131,6 @@ class CameraRenderer extends React.Component {
 					}
 				</View>
 				<ZoomControl cameraZoom={this.props.cameraZoom} />
-				{/*
-				<Button
-					buttonStyle={localStyles.buttonSwitchCamera} title="Switch Camera"
-					onPress={this._handleSwitchCamera} />
-				*/}
 			</View>
 		)
 	}
@@ -160,11 +156,6 @@ class CameraRenderer extends React.Component {
 			})
 	}
 
-	// _handleSwitchCamera = () => {
-	// 	console.log(`[_handleSwitchCamera] this.props.activeCamera = ${this.props.activeCamera}`)
-	// 	this.props.onSwitchCameraClick(this.props.activeCamera)
-	// }
-
 	_setCameraReference = cameraReference => this.camera = cameraReference
 }
 
@@ -175,10 +166,7 @@ CameraRenderer.propTypes = {
 	navigation: PropTypes.shape({
 		getParam: PropTypes.func.isRequired
 	}).isRequired,
-	// onSwitchCameraClick: PropTypes.func.isRequired,
 	updateFaceData: PropTypes.func.isRequired
 }
 
-export {
-	CameraRenderer
-}
+export { CameraRenderer }
