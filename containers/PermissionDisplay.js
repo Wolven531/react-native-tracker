@@ -1,106 +1,114 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
+import { connect } from 'react-redux'
 import { Permissions } from 'expo'
+import PropTypes from 'prop-types'
 
-import { CameraStatusDisplay } from '../components/CameraStatusDisplay'
+// import { CameraStatusDisplay } from '../components/CameraStatusDisplay'
 import { PermissionObjectDisplay } from '../components/PermissionObjectDisplay'
-import { wrapWithMarginBottom } from '../utils'
 
 import {
-	setPermissionsCamera,
-	setPermissionsLocation
+	setPermissionCamera,
+	setPermissionLocation
 } from '../actions'
 
 // import { styles } from './styles'
 
 const localStyles = {
 	buttonPermission: {
-		backgroundColor: '#0aa',
-		borderRadius: 99999
+		backgroundColor: '#0ff',
+		borderRadius: 99999,
+		borderWidth: 2,
+		marginVertical: 5,
+		paddingHorizontal: 75,
+		paddingVertical: 20,
+		shadowOffset: {
+			height: 10,
+			width: 10
+		},
+		shadowOpacity: .5,
+		shadowRadius: 10
 	},
 	container: {
-		// backgroundColor: '#f00',
-		alignItems: 'stretch',
-		alignSelf: 'stretch',
-		flex: 1,
-		maxHeight: 200,
-		// paddingBottom: 10,
+		backgroundColor: 'rgba(13, 13, 13, .5)',
+		flex: 1
 	},
 	header: {
 		color: '#eee',
 		fontSize: 18,
 		fontWeight: 'bold',
-		textAlign: 'center',
-		marginTop: 20
-		// lineHeight: 16.5
+		marginTop: 20,
+		textAlign: 'center'
 	}
 }
 
-class PermissionDisplay extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = props.store.getState()
-		props.store.subscribe(() => {
-			this.setState({
-				activeCamera: props.store.getState().activeCamera,
-				permissionsCamera: props.store.getState().permissionsCamera,
-				permissionsLocation: props.store.getState().permissionsLocation
-			})
-		})
+class StatelessPermissionDisplay extends React.Component {
+	static navigationOptions = {
+		headerTitle: 'Permissions'
 	}
-	
+
 	componentDidMount() {
-		setTimeout(this._loadPermissionsAsync, 0)
+		setTimeout(this.props.loadPermissionsAsync, 0)
 	}
 
 	render() {
 		return (
 			<View style={localStyles.container}>
 				{this._renderOverview()}
-				<Button
-					buttonStyle={localStyles.buttonPermission}
-					title="Prompt for permissions"
-					onPress={async () => await this._askPermissionsAsync()} />
+				<View style={{ marginVertical: 10 }}>
+					<Button
+						buttonStyle={localStyles.buttonPermission} color="#333"
+						title="Prompt for permissions"
+						onPress={async () => await this.props.askPermissionsAsync()} />
+				</View>
 			</View>
 		)
 	}
 
-	_askPermissionsAsync = async () => {
-		const permissionsCamera = await Permissions.askAsync(Permissions.CAMERA)
-		const permissionsLocation = await Permissions.askAsync(Permissions.LOCATION)
-
-		this.props.store.dispatch(setPermissionsLocation(permissionsLocation))
-		this.props.store.dispatch(setPermissionsCamera(permissionsCamera))
-	}
-
-	_loadPermissionsAsync = async () => {
-		const permissionsLocation = await Permissions.getAsync(Permissions.LOCATION)
-		const permissionsCamera = await Permissions.getAsync(Permissions.CAMERA)
-
-		this.props.store.dispatch(setPermissionsLocation(permissionsLocation))
-		this.props.store.dispatch(setPermissionsCamera(permissionsCamera))
-	}
-
-	_renderOverview = () => wrapWithMarginBottom(
-		<React.Fragment>
-			<View style={{
-				backgroundColor: '#0a0',
-				flex: 1,
-				maxHeight: 45
-			}}>
-				<Text style={localStyles.header}>Permissions</Text>
-			</View>
-			<View style={{
-				flex: 1,
-				// maxHeight: 75
-			}}>
-				<PermissionObjectDisplay permission={this.state.permissionsCamera} title={"Camera"} />
-				<PermissionObjectDisplay permission={this.state.permissionsLocation} title={"Location"} />
-				<CameraStatusDisplay activeCamera={this.state.activeCamera} />
-			</View>
-		</React.Fragment>
-	)
+	_renderOverview = () =>
+		<View style={{ flex: 1 }}>
+			<PermissionObjectDisplay permission={this.props.permissionCamera} title={"Camera"} />
+			<PermissionObjectDisplay permission={this.props.permissionLocation} title={"Location"} />
+			{/* <CameraStatusDisplay activeCamera={this.state.activeCamera} /> */}
+		</View>
 }
+
+StatelessPermissionDisplay.propTypes = {
+	askPermissionsAsync: PropTypes.func.isRequired,
+	loadPermissionsAsync: PropTypes.func.isRequired,
+	permissionCamera: PropTypes.object,
+	permissionLocation: PropTypes.object
+}
+
+const mapStateToProps = state => {
+	const { permissionCamera, permissionLocation } = state.permission
+	console.log(`state = ${JSON.stringify(state, null, 4)}`)
+	return {
+		permissionCamera,
+		permissionLocation
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		askPermissionsAsync: async () => {
+			const permissionCamera = await Permissions.askAsync(Permissions.CAMERA)
+			const permissionLocation = await Permissions.askAsync(Permissions.LOCATION)
+
+			dispatch(setPermissionLocation(permissionLocation))
+			dispatch(setPermissionCamera(permissionCamera))
+		},
+		loadPermissionsAsync: async () => {
+			const permissionLocation = await Permissions.getAsync(Permissions.LOCATION)
+			const permissionCamera = await Permissions.getAsync(Permissions.CAMERA)
+
+			dispatch(setPermissionLocation(permissionLocation))
+			dispatch(setPermissionCamera(permissionCamera))
+		}
+	}
+}
+
+const PermissionDisplay = connect(mapStateToProps, mapDispatchToProps)(StatelessPermissionDisplay)
 
 export { PermissionDisplay }

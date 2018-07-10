@@ -37,7 +37,7 @@ const getPermissionTextStyle = (permissionObj) => {
 }
 
 const PermissionObjectDisplay = (props) => {
-	const permissionStatus = (props.permission && capitalize(props.permission.status)) || 'Unknown'
+	const status = (props.permission && capitalize(props.permission.status)) || 'Unknown'
 
 	return (
 		<View style={localStyles.container}>
@@ -45,7 +45,7 @@ const PermissionObjectDisplay = (props) => {
 			<Text>{JSON.stringify(props.permission, null, 4)}</Text> 
 			*/}
 			<Text style={styles.textWhite}>{capitalize(props.title)}: </Text>
-			<Text style={getPermissionTextStyle(props.permission)}>{capitalize(permissionStatus)}</Text>
+			<Text style={getPermissionTextStyle(props.permission)}>{capitalize(status)}</Text>
 		</View>
 	)
 }

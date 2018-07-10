@@ -8,8 +8,9 @@ import { createStackNavigator } from 'react-navigation'
 
 import { CameraRenderer } from './containers/CameraRenderer'
 import { HomeScreen } from './components/HomeScreen'
+import { TitleBar } from './components/TitleBar'
 // import { CameraRollRenderer } from './containers/CameraRollRenderer'
-// import { PermissionDisplay } from './containers/PermissionDisplay'
+import { PermissionDisplay } from './containers/PermissionDisplay'
 // import { LocationRenderer } from './containers/LocationRenderer'
 
 import { store } from './store'
@@ -27,58 +28,41 @@ const RootStack = createStackNavigator(
 		// Camera: {
 		// 	screen: CameraRenderer
 		// }
-		Camera: CameraRenderer
+		Camera: CameraRenderer,
+		Permission: PermissionDisplay
 	},
 	{
-		initialRouteName: 'Home'
+		initialRouteName: 'Home',
+		navigationOptions: {
+			headerStyle: {
+				backgroundColor: 'rgba(0, 255, 255, 1)',
+			},
+			headerTintColor: '#333',
+			headerTitle: <TitleBar>default navigation title in App.js</TitleBar>,
+			// headerTitleStyle: {
+			// 	fontWeight: 'bold'
+			// }
+		}
 	}
 )
 
 class App extends React.Component {
 	render() {
 		return (
-			<View style={[
-				{
-					justifyContent: 'space-between',
-					backgroundColor: '#00a',
+			<View style={{
+				backgroundColor: '#00a',
+				flex: 1,
+				justifyContent: 'space-around'
+			}}>
+				<View style={{
+					backgroundColor: '#0a0',
 					flex: 1
-				}
-			]}>
-				<View style={[
-					{
-						backgroundColor: '#ff0',
-						height: 20
-					}
-				]}>
+				}}>
+					<Provider store={store}>
+						<RootStack />
+					</Provider>
+					{/* <CameraRollRenderer /> */}
 				</View>
-				<View style={[
-					{
-						backgroundColor: '#0a0',
-						flex: 1,
-						flexDirection: 'row'
-					}
-				]}>
-					<View style={[
-						{
-							backgroundColor: '#00f',
-							flex: 1
-						}
-					]}>
-						<Provider store={store}>
-							<RootStack />
-						</Provider>
-						{/* <CameraRollRenderer /> */}
-					</View>
-				</View>
-				{/*
-				<View style={[
-					{
-						// backgroundColor: '#a00',
-						flex: 1
-					}
-				]}>
-				</View>
-				*/}
 			</View>
 		)
 	}

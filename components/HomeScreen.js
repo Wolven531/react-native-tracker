@@ -27,7 +27,8 @@ const localStyles = {
 		justifyContent: 'center'
 	},
 	contentCell: {
-		flex: 1
+		flex: 1,
+		marginTop: 20
 	},
 	footerCell: {
 		alignItems: 'center',
@@ -46,16 +47,24 @@ const localStyles = {
 
 class HomeScreen extends React.Component {
 	static navigationOptions = {
-		title: 'Home'
+		headerTitle: 'React Native Tracker'
 	}
 
 	render () {
 		return (
 			<View style={localStyles.container}>
-				<View style={localStyles.headerCell}>
+				{/* <View style={localStyles.headerCell}>
 					<Text style={localStyles.headerText}>React Native Tracker</Text>
-				</View>
+				</View> */}
 				<View style={localStyles.contentCell}>
+					<Button 
+						title="View Permissions" onPress={this._navigateToPermissions}
+						buttonStyle={[
+							localStyles.button,
+							{
+								backgroundColor: 'rgba(190, 0, 190, 1)'
+							}
+						]} />
 					<Button 
 						title="Front Camera" onPress={this._navigateToFrontCamera}
 						buttonStyle={[
@@ -91,6 +100,10 @@ class HomeScreen extends React.Component {
 		this.props.navigation.push('Camera', {
 			activeCamera: Camera.Constants.Type.front
 		})
+	}
+
+	_navigateToPermissions = () => {
+		this.props.navigation.push('Permission')
 	}
 }
 

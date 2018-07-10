@@ -37,6 +37,7 @@ const localStyles = {
 	},
 	container: {
 		alignItems: 'stretch',
+		backgroundColor: 'rgba(13, 13, 13, .5)',
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
@@ -103,15 +104,15 @@ const renderFaceHighlight = face => {
 class CameraRenderer extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const paramActiveCamera = navigation.getParam('activeCamera', null)
-		let title = ''
+		let headerTitle = ''
 
 		if (paramActiveCamera === Camera.Constants.Type.front) {
-			title = 'Front Camera (Face Finder)'
+			headerTitle = 'Front Camera (Face Finder)'
 		} else if (paramActiveCamera === Camera.Constants.Type.back) {
-			title = 'Rear Camera (Face Finder)'
+			headerTitle = 'Rear Camera (Face Finder)'
 		}
 
-		return { title }
+		return { headerTitle }
 	}
 
 	camera = null// NOTE: property is set in _setCameraReference

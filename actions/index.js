@@ -36,20 +36,20 @@ const setFacesDetected = (faceData) => {
 	}
 }
 
-const setPermissionsCamera = (newCameraPermissions) => {
+const setPermissionCamera = (newCameraPermission) => {
 	return {
-		type: ActionTypes.SET_PERMISSIONS_CAMERA,
+		type: ActionTypes.SET_PERMISSION_CAMERA,
 		payload: {
-			permissions: newCameraPermissions
+			permission: newCameraPermission
 		}
 	}
 }
 
-const setPermissionsLocation = (newLocationPermissions) => {
+const setPermissionLocation = (newLocationPermission) => {
 	return {
-		type: ActionTypes.SET_PERMISSIONS_LOCATION,
+		type: ActionTypes.SET_PERMISSION_LOCATION,
 		payload: {
-			permissions: newLocationPermissions
+			permission: newLocationPermission
 		}
 	}
 }
@@ -68,7 +68,7 @@ export {
 	setCameraZoom,
 	setCameraRollPhotos,
 	setFacesDetected,
-	setPermissionsCamera,
-	setPermissionsLocation,
+	setPermissionCamera,
+	setPermissionLocation,
 	setPhoto
 }

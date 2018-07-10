@@ -1,8 +1,8 @@
 import * as ActionTypes from '../constants/action-types'
 
 const payloadRequiredActions = [
-	ActionTypes.SET_PERMISSIONS_CAMERA,
-	ActionTypes.SET_PERMISSIONS_LOCATION
+	ActionTypes.SET_PERMISSION_CAMERA,
+	ActionTypes.SET_PERMISSION_LOCATION
 ]
 
 const initialState = {
@@ -20,15 +20,15 @@ const permissionReducer = (state = initialState, action) => {
 	}
 
 	switch (type) {
-		case ActionTypes.SET_PERMISSIONS_CAMERA:
+		case ActionTypes.SET_PERMISSION_CAMERA:
 			return {
 				...state,
-				permissionCamera: payload.permissions
+				permissionCamera: payload.permission
 			}
-		case ActionTypes.SET_PERMISSIONS_LOCATION:
+		case ActionTypes.SET_PERMISSION_LOCATION:
 			return {
 				...state,
-				permissionLocation: payload.permissions
+				permissionLocation: payload.permission
 			}
 		default:
 		return state
