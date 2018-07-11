@@ -9,7 +9,7 @@ import { createStackNavigator } from 'react-navigation'
 import { CameraRenderer } from './containers/CameraRenderer'
 import { HomeScreen } from './components/HomeScreen'
 import { TitleBar } from './components/TitleBar'
-// import { CameraRollRenderer } from './containers/CameraRollRenderer'
+import { CameraRollRenderer } from './containers/CameraRollRenderer'
 import { PermissionDisplay } from './containers/PermissionDisplay'
 // import { LocationRenderer } from './containers/LocationRenderer'
 
@@ -29,6 +29,7 @@ const RootStack = createStackNavigator(
 		// 	screen: CameraRenderer
 		// }
 		Camera: CameraRenderer,
+		CameraRoll: CameraRollRenderer,
 		Permission: PermissionDisplay
 	},
 	{

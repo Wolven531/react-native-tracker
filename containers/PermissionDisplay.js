@@ -83,7 +83,6 @@ StatelessPermissionDisplay.propTypes = {
 
 const mapStateToProps = state => {
 	const { permissionCamera, permissionLocation } = state.permission
-	console.log(`state = ${JSON.stringify(state, null, 4)}`)
 	return {
 		permissionCamera,
 		permissionLocation

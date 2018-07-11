@@ -39,11 +39,20 @@ const styles = StyleSheet.create({
 	textGreen: {
 		color: '#0f0'
 	},
+	textOrange: {
+		color: '#f60'
+	},
+	textPink: {
+		color: '#d77'
+	},
 	textRed: {
 		color: '#f00'
 	},
 	textWhite: {
 		color: '#eee'
+	},
+	textYellow: {
+		color: '#ff0'
 	}
 })
 

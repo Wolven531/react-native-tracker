@@ -1,27 +1,30 @@
 {
-  "expo": {
-    "name": "React Native Tracker",
-    "description": "Pushing the digital envelope, AJW",
-    "slug": "react-native-tracker",
-    "privacy": "public",
-    "sdkVersion": "28.0.0",
-    "platforms": ["ios", "android"],
-    "version": "0.5.0",
-    "orientation": "default",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#dddddd"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
-  }
+	"expo": {
+		"name": "React Native Tracker",
+		"description": "Pushing the digital envelope, AJW",
+		"slug": "react-native-tracker",
+		"privacy": "public",
+		"sdkVersion": "28.0.0",
+		"platforms": [
+			"ios",
+			"android"
+		],
+		"version": "0.6.0",
+		"orientation": "default",
+		"icon": "./assets/heart2.png",
+		"splash": {
+			"image": "./assets/wolf.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#333"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": [
+			"**/*"
+		],
+		"ios": {
+			"supportsTablet": true
+		}
+	}
 }

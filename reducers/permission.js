@@ -13,9 +13,9 @@ const initialState = {
 const permissionReducer = (state = initialState, action) => {
 	const { payload, type } = action
 
-	console.info(`[reducer] Processing action of type="${type}"`)
+	console.info(`[permissionReducer] Processing action of type="${type}"`)
 	if (!payload && payloadRequiredActions.indexOf(type) > -1) {
-		console.warn(`[reducer] Payload was missing for type=${type}`)
+		console.warn(`[permissionReducer] Payload was missing for type=${type}`)
 		return state
 	}
 

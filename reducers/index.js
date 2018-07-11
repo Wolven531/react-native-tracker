@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
-import { cameraReducer } from './camera'
-import { permissionReducer } from './permission'
+import { cameraReducer as camera } from './camera'
+import { permissionReducer as permission } from './permission'
 
 const mainReducer = combineReducers({
-	camera: cameraReducer,
-	permission: permissionReducer
+	camera,
+	permission
 })
 
 export { mainReducer }

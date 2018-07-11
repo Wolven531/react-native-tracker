@@ -62,7 +62,7 @@ class HomeScreen extends React.Component {
 						buttonStyle={[
 							localStyles.button,
 							{
-								backgroundColor: 'rgba(190, 0, 190, 1)'
+								backgroundColor: 'rgba(255, 0, 128, 1)'
 							}
 						]} />
 					<Button 
@@ -82,6 +82,14 @@ class HomeScreen extends React.Component {
 								backgroundColor: 'rgba(0, 0, 190, 1)'
 							}
 						]} />
+					<Button 
+						title="Camera Roll" onPress={this._navigateToCameraRoll}
+						buttonStyle={[
+							localStyles.button,
+							{
+								backgroundColor: 'rgba(128, 0, 128, 1)'
+							}
+						]} />
 				</View>
 				<View style={localStyles.footerCell}>
 					<Text style={styles.textWhite}>Anthony Williams &copy; 2018</Text>
@@ -94,6 +102,10 @@ class HomeScreen extends React.Component {
 		this.props.navigation.push('Camera', {
 			activeCamera: Camera.Constants.Type.back
 		})
+	}
+
+	_navigateToCameraRoll = () => {
+		this.props.navigation.push('CameraRoll')
 	}
 
 	_navigateToFrontCamera = () => {
