@@ -28,13 +28,13 @@ const CameraStatusDisplay = ({ activeCamera }) => {
 		switch(activeCamera) {
 			case Camera.Constants.Type.back:
 				cameraStatus = 'Back'
-			break;
+			break
 			case Camera.Constants.Type.front:
 				cameraStatus = 'Front'
-			break;
+			break
 			default:
 				cameraStatus = 'Unknown'
-			break;
+			break
 		}
 	}
 

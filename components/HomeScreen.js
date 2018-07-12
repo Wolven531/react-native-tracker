@@ -90,6 +90,15 @@ class HomeScreen extends React.Component {
 								backgroundColor: 'rgba(128, 0, 128, 1)'
 							}
 						]} />
+					<Button 
+						title="Map" onPress={this._navigateToMap}
+						
+						buttonStyle={[
+							localStyles.button,
+							{
+								backgroundColor: 'rgba(255, 128, 0, 1)'
+							}
+						]} />
 				</View>
 				<View style={localStyles.footerCell}>
 					<Text style={styles.textWhite}>Anthony Williams &copy; 2018</Text>
@@ -112,6 +121,10 @@ class HomeScreen extends React.Component {
 		this.props.navigation.push('Camera', {
 			activeCamera: Camera.Constants.Type.front
 		})
+	}
+
+	_navigateToMap = () => {
+		this.props.navigation.push('Map')
 	}
 
 	_navigateToPermissions = () => {

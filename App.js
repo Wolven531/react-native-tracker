@@ -11,7 +11,7 @@ import { HomeScreen } from './components/HomeScreen'
 import { TitleBar } from './components/TitleBar'
 import { CameraRollRenderer } from './containers/CameraRollRenderer'
 import { PermissionDisplay } from './containers/PermissionDisplay'
-// import { LocationRenderer } from './containers/LocationRenderer'
+import { LocationRenderer } from './containers/LocationRenderer'
 
 import { store } from './store'
 
@@ -30,6 +30,7 @@ const RootStack = createStackNavigator(
 		// }
 		Camera: CameraRenderer,
 		CameraRoll: CameraRollRenderer,
+		Map: LocationRenderer,
 		Permission: PermissionDisplay
 	},
 	{

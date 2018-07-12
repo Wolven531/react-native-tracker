@@ -1,31 +1,31 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
-import { Location, MapView } from 'expo'
+// import { Location, MapView } from 'expo'
+import { Permissions } from 'expo'
+import { connect } from 'react-redux'
+
+import { setPermissionLocation } from '../actions'
 // import DefaultProps from 'prop-types'
 
 // import { store } from '../store'
 
 // import { styles } from '../styles'
 
-class LocationRenderer extends React.Component {
+class StatelessLocationRenderer extends React.Component {
+	static navigationOptions = ({ navigation }) => {
+		let headerTitle = 'Map'
+		return { headerTitle }
+	}
+
 	locationLookupOptions = {
 		enableHighAccuracy: true
 	}
 	locationRefreshDelay = 1000
 	// locationUpdateTimer = null
 
-	constructor(props){
-		super(props)
-		this.state = props.store.getState()
-		props.store.subscribe(() => {
-			this.setState({
-				locationResult: this.props.store.getState().locationResult,
-				mapRegion: this.props.store.getState().mapRegion,
-				updatingLocation: this.props.store.getState().updatingLocation,
-				permissionsLocation: this.props.store.getState().permissionsLocation
-			})
-		})
+	componentDidMount() {
+		setTimeout(this.props.loadPermissionsAsync, 0)
 	}
 
 	// componentWillUnmount() {
@@ -35,29 +35,29 @@ class LocationRenderer extends React.Component {
 	// 	}
 	// }
 
-	render() {
-		if (!this.state.permissionsLocation) {
+	render () {
+		if (!this.props.permissionLocation) {
 			return (
 				<View style={{
 					alignSelf: 'stretch',
-					backgroundColor: '#f00',
+					// backgroundColor: '#f00',
 					flex: 1,
-					minHeight: 500,
-					minWidth: 500
+					justifyContent: 'flex-start',
+					paddingTop: 25
 				}}>
-					<Text>Location permission was missing</Text>
+					<Text style={{ textAlign: 'center' }}>Location permission was missing</Text>
 				</View>
 			)
 		}
 		return (
 			<View style={{
-				// alignSelf: 'stretch',
-				backgroundColor: '#f00',
-				// flex: 1,
-				minHeight: 100,
-				minWidth: 100
+				alignSelf: 'stretch',
+				// backgroundColor: '#f00',
+				flex: 1,
+				// minHeight: 100,
+				// minWidth: 100
 			}}>
-				<Text>Location Renderer</Text>
+				<Text style={{ textAlign: 'center' }}>Location Renderer</Text>
 			</View>
 			// <View style={styles.locationDisplay}>
 			// 	<View style={styles.locationContainer}>
@@ -125,5 +125,26 @@ class LocationRenderer extends React.Component {
 // 		status: DefaultProps.string.isRequired
 // 	})
 // }
+
+const mapStateToProps = state => {
+	const { permissionLocation } = state.permission
+	return {
+		locationResult: null,
+		mapRegion: null,
+		permissionLocation,
+		updatingLocation: null
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		loadPermissionsAsync: async () => {
+			const permissionLocation = await Permissions.getAsync(Permissions.LOCATION)
+			dispatch(setPermissionLocation(permissionLocation))
+		}
+	}
+}
+
+const LocationRenderer = connect(mapStateToProps, mapDispatchToProps)(StatelessLocationRenderer)
 
 export { LocationRenderer }
