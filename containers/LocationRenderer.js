@@ -120,7 +120,13 @@ class StatelessLocationRenderer extends React.Component {
 					}}
 					region={mapRegion}
 					// onRegionChange={this._handleMapRegionChange}
+				>
+					<MapView.Marker
+						coordinate={location.coords}
+						title="My Location"
+						description="Where I'm currently at"
 					/>
+				</MapView>
 				<Text>Last updated: {formattedTime}</Text>
 			</View>
 		)
