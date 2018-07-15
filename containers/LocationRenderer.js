@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Button } from 'react-native-elements'
-import { Location, MapView, Permissions } from 'expo'
+import { Location, MapView, Permissions, PROVIDER_GOOGLE } from 'expo'
 import { connect } from 'react-redux'
 import moment from 'moment-timezone'
 
@@ -12,6 +12,8 @@ import {
 } from '../actions'
 // import DefaultProps from 'prop-types'
 // import { styles } from '../styles'
+
+import aubergineMapStyle from './AubergineMapStyle.json'// NOTE: from https://mapstyle.withgoogle.com/
 
 const localStyles = {
 	buttonGetLocation: {
@@ -118,6 +120,8 @@ class StatelessLocationRenderer extends React.Component {
 						// height: 300,
 						width: 300
 					}}
+					provider={PROVIDER_GOOGLE}
+					customMapStyle={aubergineMapStyle}
 					region={mapRegion}
 					// onRegionChange={this._handleMapRegionChange}
 				>
