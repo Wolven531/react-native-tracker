@@ -38,6 +38,11 @@ const locationReducer = (state = initialState, action) => {
 				longitudeDelta: 0.0421
 			}
 		}
+		case ActionTypes.SET_MAP_REGION:
+		return {
+			...state,
+			mapRegion: payload.newRegion
+		}
 		default:
 		return state
 	}

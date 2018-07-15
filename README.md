@@ -6,9 +6,11 @@ This repository makes use of several modern frontend technologies and can be use
 
 * React
 * React Native
+* Redux
 * Expo
 * Babel
 * NPM
+* TypeScript
 
 ## Running
 

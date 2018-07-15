@@ -36,6 +36,15 @@ const setFacesDetected = (faceData) => {
 	}
 }
 
+const setMapRegion = (newRegion) => {
+	return {
+		type: ActionTypes.SET_MAP_REGION,
+		payload: {
+			newRegion
+		}
+	}
+}
+
 const setNewLocation = (newLocation) => {
 	return {
 		type: ActionTypes.SET_NEW_LOCATION,
@@ -86,6 +95,7 @@ export {
 	setCameraZoom,
 	setCameraRollPhotos,
 	setFacesDetected,
+	setMapRegion,
 	setNewLocation,
 	setPermissionCamera,
 	setPermissionLocation,
