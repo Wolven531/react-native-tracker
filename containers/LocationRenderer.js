@@ -13,7 +13,7 @@ import {
 // import DefaultProps from 'prop-types'
 // import { styles } from '../styles'
 
-import aubergineMapStyle from './AubergineMapStyle.json'// NOTE: from https://mapstyle.withgoogle.com/
+import aubergineMapStyle from '../assets/AubergineMapStyle.json'// NOTE: from https://mapstyle.withgoogle.com/
 
 const localStyles = {
 	buttonGetLocation: {
