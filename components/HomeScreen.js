@@ -1,10 +1,12 @@
-import { Camera } from 'expo'
+// import { Camera } from 'expo'
+const CameraTypes = require('expo').Camera.Constants.Type
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { Button } from 'react-native-elements'
+// import { Button } from 'react-native-elements'
+const Button = require('react-native-elements').Button
 
-import { styles } from '../styles'
+// import { styles } from '../styles'
 
 const localStyles = {
 	button: {
@@ -101,7 +103,7 @@ class HomeScreen extends React.Component {
 						]} />
 				</View>
 				<View style={localStyles.footerCell}>
-					<Text style={styles.textWhite}>Anthony Williams &copy; 2018</Text>
+					<Text style={{ color: '#fff' }}>Anthony Williams &copy; 2018</Text>
 				</View>
 			</View>
 		)
@@ -109,7 +111,7 @@ class HomeScreen extends React.Component {
 
 	_navigateToBackCamera = () => {
 		this.props.navigation.push('Camera', {
-			activeCamera: Camera.Constants.Type.back
+			activeCamera: CameraTypes.back
 		})
 	}
 
@@ -119,7 +121,7 @@ class HomeScreen extends React.Component {
 
 	_navigateToFrontCamera = () => {
 		this.props.navigation.push('Camera', {
-			activeCamera: Camera.Constants.Type.front
+			activeCamera: CameraTypes.front
 		})
 	}
 
