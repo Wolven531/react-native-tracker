@@ -3,10 +3,10 @@
 	"scripts": {
 		"android-list-emulators": "echo '~~~~~~~~~~Emulators below~~~~~~~~~~' && emulator -list-avds",
 		"android-emulator": "cd C:\\Android\\android-sdk\\emulator && $avdName = emulator -list-avds && emulator -avd $avdName",
-		"android-start": "exp start -c --tunnel -a",
-		"android": "exp android",
+		"android-start": "expo-cli start -c --tunnel -a",
+		"android": "expo-cli android",
 		"build": "webpack --config webpack.config.js",
-		"start": "exp start -c --tunnel --dev --no-minify",
+		"start": "expo-cli start -c --tunnel --dev --no-minify",
 		"test": "jest"
 	},
 	"jest": {
